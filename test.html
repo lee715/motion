@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	.test1 { 
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin-left: -100px;
+		margin-top: -100px;
+		width: 200px;
+		height: 200px;
+		background-color: red;
+    transform: rotate(30deg);
+    -webkit-transform: rotate(30deg);
+	}
+	</style>
+</head>
+<body>
+<div class="test1"></div>
+<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript" src="motion.js"></script>
+<script type="text/javascript">
+$(function(){
+	window.a = new C({rotate: 180, translate: '100,180', scale: '45,36'}, $('.test1'));
+})
+
+</script>
+</body>
+</html>

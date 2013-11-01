@@ -77,10 +77,131 @@ $(function(){
 	});
 
 	var div = document.createElement('div');
-	C = cssHandler = cCtr(function(css){
-		
-	}, {
 
+	window.C = C = cssHandler = cCtr(function(css, $dom){
+		// for each key in css , get the original value in $dom
+		var key, cc, counter, va, o;
+
+		this._o = {};
+		for(va in css){
+			// 源生css
+			if(cc = this.gcc(va)){
+				this._o[va] = $dom.css(cc);
+			// 自定义css
+			}else if(counter = this._cCssFuncMap[va]){
+				$.extend(this._o, this._cCssFuncs[counter].get.call(this, $dom));
+			}else{
+
+			}
+		}
+
+	}, {
+		// this function is used for getting compatible css
+		gcc: function(prop){
+			if(prop in div.style) return prop;
+
+			var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
+			var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
+			if (prop in div.style) { return prop; }
+
+	    for (var i=0; i<prefixes.length; ++i) {
+	      var vendorProp = prefixes[i] + prop_;
+	      if (vendorProp in div.style) { return vendorProp; }
+	    }
+	    return false;
+		},
+		_cCssCounter: 1,
+		_cCssFuncs: {},
+		_cCssFuncMap: {},
+		spreadCss: function(cCss, funcs){
+			var t = this;
+			if(!$.isArray(cCss)) cCss = [ cCss ];
+			$.each(cCss, function(index, css){
+				t._cCssFuncMap[css] = t._cCssCounter;
+			});
+			t._cCssFuncs[t._cCssCounter] = funcs;
+			t._cCssCounter++;
+			return this;
+		}
+	});
+
+	// 扩展自定义css
+	var spreadCss;
+	spreadCss = function(cCss, func){
+		C.prototype.spreadCss(cCss, func);
+	};
+
+	// 扩展自定义css: rotate, skew, translate, scale
+	spreadCss(['rotate', 'translate', 'scale'], {
+		related: true,
+		get: function($dom){
+			var res, cssName = this.gcc('transform'), 
+					matrix = $dom.css(cssName),
+					a, b, c, d, e, f, matri = [],
+					sx, sy, x, y, sin, cos, deg;
+
+			matrix.replace(/[\d.]+/g, function(match){
+				matri.push( +match );
+				return match;
+			});
+			a = matri[0];
+			b = matri[1];
+			c = matri[2];
+			d = matri[3];
+			e = matri[4];
+			f = matri[5];
+			sx = Math.sqrt(a * a + b * b);
+			sy = Math.sqrt(c * c + d * d);
+			sin = c / sy;
+			cos = a / sx;
+			deg = Math.getDeg(sin, cos);
+			y =  f * cos / sy - e * sin / sx;
+			x = ( e / sx + y * sin ) / cos;
+
+			res = {
+				rotate: deg,
+				translate: x + ',' + y,
+				scale: sx + ',' + sy
+			};
+			return res;
+		},
+		set: function(cCss, $dom){
+			var a, b, c, d, e, f, va, arr, res,
+					sx = 1, sy = 1, sin = 0, rad = 0, cos = 1, x = 0, y = 0,
+					className = this.gcc('transform');
+
+			for(va in cCss){
+				switch(va){
+					case 'rotate':
+						rad = +cCss[va] * Math.PI / 180;
+						sin = Math.sin(rad);
+						cos = Math.cos(rad);
+						break;
+					case 'translate': 
+						arr = cCss[va].split(',');
+						x = +arr[0];
+						y = +arr[1];
+						break;
+					case 'scale':
+						arr = cCss[va].split(',');
+						sx = +arr[0];
+						sy = +arr[1];
+						break;
+				}
+			}
+
+			a = sx * cos;
+			b = -sx * sin;
+			c = sy * sin;
+			d = sy * cos;
+			e = sx * ( x * cos - y * sin );
+			f = sy * ( x * sin + y * cos );
+
+			res = {};
+			res[className] = 'matrix(' + [a, b, c, d, e, f].join(',') + ')';
+			$dom && $dom.css(res);
+			return res;
+		}
 	});
 
 	Track = {
