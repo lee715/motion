@@ -82,6 +82,7 @@ $(function(){
 		// for each key in css , get the original value in $dom
 		var key, cc, counter, va, o;
 
+		// get original css values
 		this._o = {};
 		for(va in css){
 			// 源生css
@@ -93,9 +94,59 @@ $(function(){
 			}else{
 
 			}
+
+			// 数值偏移量
+
 		}
 
+		return this;
 	}, {
+		// 带单位加减乘除运算 Arithmetic With Unit
+		AWU: function(type){
+			var args = [].slice.call(arguments, 1),
+					unit, data, intArr, res, setp;
+
+			if(data = this.getUnit(args)){
+				unit = data[0];
+				intArr = data[1];
+			}else{
+				return false;
+			}
+			
+			switch(type){
+				case '+':
+					step = function(a, b){ return (+a) + (+b); }
+					break;
+				case '-':
+					step = function(a, b){ return (+a) - (+b); }
+					break;
+				case '*':
+					step = function(a , b){ return (+a) * (+b); }
+					break;
+				case '/':
+					step = function(a , b){ return (+a) / (+b); }
+					break;
+			}
+
+			var item;
+			res = intArr.shift();
+			while(item = intArr.shift()){
+				res = step(res, item);
+			}
+			return res;
+		},
+		getUnit: function(arr){
+			var unit = true, last;
+			arr = arr.join(',').replace(/[a-zA-Z]+/g, function(match){
+				if(!last){
+					last = match;
+				}else if(last !== match){
+					unit = false;
+				}
+				return '';
+			}).split(',');
+			return unit ? [last, arr] : unit;
+		},
 		// this function is used for getting compatible css
 		gcc: function(prop){
 			if(prop in div.style) return prop;

@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	.div1{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 200px;
+		height: 200px;
+		background: red;
+	}
+	.div2{
+		position: absolute;
+		left: 0;
+		top: 100px;
+		width: 200px;
+		height: 100px;
+		background: rgba(0,0,0,0.5);
+	}
+	</style>
+</head>
+<body>
+<div class="div3">
+<div class="div1" >
+</div>
+<div class="div2" onclick="console.log(2);return false"></div>
+</div>
+
+<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript">
+$('.div1').click(function(){
+	console.log(1)
+})
+$('.div3').click(function(){
+	console.log(3)
+})
+</script>
+</body>
+</html>
