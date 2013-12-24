@@ -9,6 +9,8 @@ require([
 	_math = {
 		isInt: (x)->
 			return x is parseInt(x)
+		isOdd: (x)->
+			return not @isInt( x/2 )
 		# 获取num的精度
 		getAccuracy: (num)->
 			return (num + '').split('.')[1]?.length or 0
@@ -24,7 +26,9 @@ require([
 			return res
 		# 乘方函数，n为阶数，可以是正负整数或0.5的倍数
 		power: (x, n, accuracy)->
-			res = x, isInt = this.isInt, bA = this.beAccuracy
+			res = x
+			isInt = this.isInt
+			bA = this.beAccuracy
 			# isRec 标识结果是否需求倒
 			isRec = false
 			# isSqrt 标识结果是否需开方
@@ -52,30 +56,52 @@ require([
 			_degS = degS >= 0 ? 180 - degS : -degS - 180
 			_degC = -degC
 			p = parseInt
-			if(p(degS) is p(degC) or p(degS) is p(_degC)){
+			if(p(degS) is p(degC)) or (p(degS) is p(_degC))
 				res = degS
-			}else{
+			else
 				res = _degS
-			}
 			return bA(res)
 		# 得到单位
 		getUnit: (arr)->
 			unless $.isArray(arr) then arr = [arr]
 			res = false
-			reg = /[a-zA-Z]+/g
+			unit = (val)-> return val
+			match = false
+			reg = /[\d|.]+/g
 			for str in arr
-				str.replace(reg, (match)->
-					res = match
-				)
-				if res then break
-			return res
+				if(typeof str is 'string')
+					str.replace(reg, (match)->
+						match = true
+						return '{num}'
+					)
+					if match and str.length > 5
+						res = str
+						break
+			if res 
+				unit = (num)->
+					return res.replace('{num}', num)
+			return unit
 		withOutUnit: (arr)->
 			res = []
+			reg = /[a-zA-Z]+/g
 			if not $.isArray(arr) then arr = [arr]
 			$.each(arr, (index, item)->
-				item.replace(reg, '')
+				unless item 
+					item = 0
+				else
+					item = item.replace?(reg, '') or item
 				res.push(+item)
 			)
+			return res
+		identity: (val)->
+			return val
+		compact: (arr)->
+			res = []
+			for item in arr
+				if @identity(item)
+					res.push(item)
+				else
+					res.push(0)
 			return res
 		# 带单位加减乘除运算 Arithmetic With Unit
 		# example
@@ -83,7 +109,8 @@ require([
 		#   awu('-', 10, 4, 3, 2, 1) => 0
 		awu: (type)->
 			args = [].slice.call(arguments, 1)
-			unless(unit = @getUnit(args)) then return
+			args = @compact(args)
+			unit = @getUnit(args)
 			args = @withOutUnit(args) 
 			switch type
 				when '+'
@@ -99,9 +126,10 @@ require([
 					step = (a, b)-> a / b
 					break
 			res = args.shift()
-			while(item = args.shift())
+			while(args.length)
+				item = args.shift()
 				res = step(res, item)
-			res
+			unit(res)
 	}
 
 	# 工具方法
@@ -120,7 +148,8 @@ require([
 		# 	input: [1,2,3,4,5], 3
 		# 	output: 6
 		getArrSum: (arr, n)->
-			i = 0, sum = 0
+			i = 0
+			sum = 0
 			while(i < n)
 				sum += arr[i]
 				i++
@@ -134,11 +163,19 @@ require([
 		# 	input: [1,2,3,4,5]
 		# 	output: [1,3,6,10,15]
 		getSumArr: (arr)->
-			ts = [], len = arr.length
+			ts = []
+			len = arr.length
 			while(len)
 				ts[len - 1] = @getSum(arr, len)
 				len--
 			return ts
+		# 对于给定数组 , 求其前n项的和
+		getSum: (arr, n)->
+			res = 0
+			n = n or arr.length
+			for a, i in arr
+				if i < n then res += a
+			return res 
 		# 首字母大写
 		firstLetterUpper: (str)->
 			str.replace(/^[a-z]{1}/, (match)->
@@ -160,11 +197,11 @@ require([
 			@
 		# set逻辑的入口函数
 		set: ->
-			switch arguments.length
-				when 2
-					func = '_setObj'
-				when 3
+			switch typeof arguments[0]
+				when 'string'
 					func = '_set'
+				else
+					func = '_setObj'
 			return @[func].apply(@, arguments)
 		# params
 		# 	@obj  ｛Object｝key值为字符串，value值为放入map中的类
@@ -179,6 +216,7 @@ require([
 		_setObj: (obj, domain)->
 			for key, value of obj
 				@_set(key, value, domain)
+			return @
 		_set: (name, ctor, domain)->
 			domain = domain or @defaultDomain
 			name = "#{domain}.#{name}"
@@ -193,37 +231,37 @@ require([
 			root = @_root
 
 			while(name = arr.shift())
-				domain = domain[name]
-				if(not domain) then domain = {}
-			if(domain[target])
+				if(not root[name]) then root[name] = {}
+				root = root[name]
+			if(root[target])
 				@onError("namespace conflict at #{target}")
-			domain[target] = ctor
+			root[target] = ctor
 			@
 		get: (name)->
 			name = U.firstLetterLower(name)
 			arr = @_data[name].split('.')
 			ctor = @_root
-			while(name = arr.shift()){
+			while(name = arr.shift())
 				ctor = ctor[name]
-			}
 			return ctor
 		onError: (msg)->
 			console.log(msg)
-	})
+
 
 	class Queue
 		constructor: (opts)->
+			# 队列由对象结构实现（方便修改），通过_order保证其顺序
 			@_q = {}
 			@_order = []
 			@
 		find: (name)->
-			@_q[name]
+			name and @_q[name]
 		push: (name, func)->
-			args = [].slice.apply(arguments, 2)
+			args = [].slice.call(arguments, 2)
 			exist = @find(name)
 			if(exist)
 				# 参数均为object则合并
-				if(exist.length is 2 and $.isObject(exist[1]) and args.length is 1 and $.isObject(args[0]) )
+				if(exist.length is 2 and typeof exist[1] is 'object' and args.length is 1 and typeof args[0] is 'object' )
 					exist[1] = $.extend({}, exist[1], args[0])
 				else
 					exist.concat(args)
@@ -234,14 +272,15 @@ require([
 		next: ->
 			callback = =>
 				@next()
-			name = @_order.shift()
-			handle = @find(name)
-			if(handle)
-				handle.push(callback)
-				handle.shift().apply(null, handle)
-				@delete(name)
-			else
-				@next()
+			if @_order.length
+				name = @_order.shift()
+				handle = @find(name)
+				if(handle)
+					handle.push(callback)
+					handle.shift().apply(null, handle)
+					@delete(name)
+				else
+					@next()
 		delete: (name)->
 			delete @_q[name]
 
