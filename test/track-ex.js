@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  require(['jquery', 'util', 'track'], function($, U, T) {
+  define(['jquery', 'util', 'track'], function($, U, T) {
     var Cam, FreeFall, Vam;
     Vam = (function(_super) {
       __extends(Vam, _super);
@@ -22,7 +22,7 @@
 
       return Vam;
 
-    })(Parabola);
+    })(T.get('Parabola'));
     Cam = (function(_super) {
       __extends(Cam, _super);
 
@@ -35,8 +35,8 @@
 
       return Cam;
 
-    })(Line);
-    Track.push({
+    })(T.get('Line'));
+    T.push({
       'vam': Vam,
       'cam': Cam
     }, 'Physics');
@@ -111,7 +111,7 @@
 
       return FreeFall;
 
-    })(Image);
+    })(T.get('Image'));
     return T.push('freeFall', FreeFall);
   });
 

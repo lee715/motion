@@ -1,7 +1,7 @@
 require.config({
 	paths: {
     'jquery': 'jquery-min',
-    'motion': 'Motion',
+    'motion': 'motion',
     'cssHandler': 'CssHandler',
     'track': 'Track',
     'util': 'Utilities',
@@ -9,9 +9,10 @@ require.config({
   }
 });
 
-require([
+define([
 	'jquery',
 	'util',
+    'track-ex',
 	'motion'
 ], function($, U){
 	var width = $('body').width();

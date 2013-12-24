@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  require(['jquery', 'util'], function($, U) {
+  define(['jquery', 'util'], function($, U) {
     var Image, Lg, Line, Log, Mixin, Parabola, T, Track, _ref;
     Image = (function() {
       function Image(opts) {
@@ -338,14 +338,13 @@
     })(Image);
     T = Track = {
       mix: function(arr, opts) {
-        var X, insArr, map;
+        var X, insArr;
         insArr = [];
-        map = this.map;
         $.each(arr, function(index, item) {
           var Ctor, name, options;
           name = item[0];
           options = item[1];
-          Ctor = map.get(name);
+          Ctor = this.get(name);
           return Ctor && insArr.push(new Ctor(options));
         });
         X = (function(_super) {
@@ -383,6 +382,9 @@
       push: function() {
         return this.map.set.apply(this.map, arguments);
       },
+      get: function(name) {
+        return this.map.get.apply(this.map, arguments);
+      },
       extend: function() {
         var args;
         args = arguments;
@@ -399,7 +401,7 @@
         var Pnt, X, _class, _ref1;
         if (parent) {
           parent = parent.toLowerCase();
-          Pnt = this.map.get(parent);
+          Pnt = this.get(parent);
         } else {
           Pnt = Image;
         }
@@ -427,7 +429,8 @@
       'line': Line,
       'parabola': Parabola,
       'log': Log,
-      'lg': Lg
+      'lg': Lg,
+      'image': Image
     }, 'Math');
     return Track;
   });
