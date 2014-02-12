@@ -1,0 +1,4 @@
+define(
+	->
+		return [].slice
+)
