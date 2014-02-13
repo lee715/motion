@@ -2,18 +2,21 @@ define([
 	'jquery'
 	'array/slice'
 	'array/type'
+	'object/create'
+	'function/wrap'
 	'graphic'
 	'line'
 	'log'
 	'lg'
 	'parabola'
-], ($, slice, type)->
+	'point'
+], ($, slice, type, create, wrap)->
 
-	names = 'graphic line log lg parabola'.split(' ')
-	funcs = slice.call(arguments, 2)
+	names = 'graphic line log lg parabola point'.split(' ')
+	funcs = slice.call(arguments, -6)
 	basic = {}
 	for name, i in names 
-		basic[name] = funcs[i]
+		basic[name] = wrap(funcs[i])
 
 	# holds Classes build by factory.create
 	custom = {}
@@ -38,5 +41,5 @@ define([
 			class X extends Pnt
 				constructor: ctor
 			$.extend(X.__super__, statics)
-			custom[name] = X
+			custom[name] = wrap(X)
 			true

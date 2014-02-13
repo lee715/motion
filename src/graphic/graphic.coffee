@@ -4,6 +4,6 @@ define([
 
 	class Graphic
 		constructor: ->
-			@type = 'graphic'
+			@be = 'graphic'
 			@
 )
