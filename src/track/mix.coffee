@@ -1,16 +1,14 @@
 define([
-	'util'
-	'graphic/factory'
-	'promise/type'
-	'array/str2arr'
-	'array/slice'
-	'error'
-], (U, F, type, str2arr, slice, err)->
+	'../graphic/factory'
+	'../promise/type'
+	'../array/str2arr'
+	'../array/slice'
+], (F, type, str2arr, slice)->
 
 	# holds all mixed tracks
 	mixs = {}
 
-	G = factory.get('graphic')
+	G = F.get('graphic')
 	class Mixin extends G
 		_getPos: (x)->
 			arr = @tArr

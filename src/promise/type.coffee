@@ -1,12 +1,14 @@
 define([
-	'jquery'
-	'util'
-	'error'
-	'object/toString'
-], ($, U, err, toString)->
+	'../object/toString'
+	'../array/toArray'
+	'../array/last'
+	'../array/str2arr'
+	'../function/returnTrue'
+	'../function/returnFalse'
+], (toString, toArray, last, str2arr, returnTrue, returnFalse)->
 
 	valids = 
-		'string': -> $.isString.apply(null, arguments)
+		'string': (str)-> typeof str is 'string' 
 		'function': -> $.isFunction.apply(null, arguments)
 		'number': -> $.isNumeric.apply(null, arguments)
 		'emptyObject': -> $.isEmptyObject.apply(null, arguments)
@@ -16,29 +18,31 @@ define([
 		'object': (obj)->  toString.call(null, obj) is '[object Object]'
 		'undefined': (param)-> typeof param is 'undefined'
 		'arrayLike': (arrLike)-> $.isArrayLike.apply(null, arguments)
-	Type = (types, args)->
+	check = (type, args)->
+		if not valids[type]
+			if args['be'] is type
+				true
+			else
+				false
+		else if(not valids[type](args))
+			false
+		else
+			true
+	Type = (types, args, callback)->
 		if valids['undefined'](args)
 			$.type.apply(null, arguments)
 		else
 			res = true
-			if(valids.string(types)) types = types.match(/\S+/)
-			if(valids.array(types))
+			types = str2arr(types)
+			if types.length is 1 then args = [args]
+			if(types.length)
 				for type, i in types
-					if(not valids.string(type))
-						err('Unrecognized Type', type)
-						res = false
-						break
-					else if not valids[type]
-						if args[i]['be'] is type
-							continue
-						else
-							res = false
-							break
-					else if(not valids[type](args[i]))
-						res = false
-						break
+					unless check(type, args[i]) then return res = false
 			else
 				err('Unrecognized Type', types)
 				res = false
-			res
+			if res and callback
+				callback.apply(null, args)
+			else
+				res
 )	

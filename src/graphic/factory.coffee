@@ -1,16 +1,15 @@
 define([
-	'jquery'
-	'array/slice'
-	'array/type'
-	'object/create'
-	'function/wrap'
-	'graphic'
-	'line'
-	'log'
-	'lg'
-	'parabola'
-	'point'
-], ($, slice, type, create, wrap)->
+	'../array/slice'
+	'../promise/type'
+	'../object/create'
+	'../function/wrap'
+	'./graphic'
+	'./line'
+	'./log'
+	'./lg'
+	'./parabola'
+	'./point'
+], (slice, type, create, wrap)->
 
 	names = 'graphic line log lg parabola point'.split(' ')
 	funcs = slice.call(arguments, -6)
@@ -43,3 +42,4 @@ define([
 			$.extend(X.__super__, statics)
 			custom[name] = wrap(X)
 			true
+)

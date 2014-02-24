@@ -1,7 +1,6 @@
 define([
-	'log'
-	'util'
-], (Log, U)->
+	'./log'
+], (Log)->
 
 	class Lg extends Log
 		constructor: ->

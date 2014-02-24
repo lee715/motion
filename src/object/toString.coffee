@@ -1,5 +1,5 @@
 define([
-	'plainObject'
+	'./plainObject'
 ], (po)->
 		po.toString
 )

@@ -1,5 +1,5 @@
 define([
-	'promise/type'
+	'../promise/type'
 ], (type)->
 	if type('undefined', Object.create)
 		Object.create = (o)->

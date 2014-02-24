@@ -1,6 +1,6 @@
 define([
-	'array/push'
-	'promise/type'
+	'./push'
+	'../promise/type'
 ], (push, type)->
 		(arr, affect)->
 			if type('array', arr)

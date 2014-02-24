@@ -1,12 +1,11 @@
 define([
-	'promise/type'
-	'regex/rnotwhite'
-], (type, rnw)->
+	'../regex/rnotwhite'
+], (rnw)->
 		str2arr = (str)->
-			if(type('string', str))
+			if(typeof str is 'string')
 				str.match(rnw)
-			else if(type('array', str))
+			else if(str instanceof Array)
 				str
 			else
-				false
+				[]
 )	

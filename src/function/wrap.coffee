@@ -1,5 +1,5 @@
 define([
-	'object/create'
+	'../object/create'
 ], (create)->
 		(Ctor)->
 			->

@@ -1,6 +1,5 @@
 define([
-	'util'
-], (U)->
+], ->
 
 	class Graphic
 		constructor: ->

@@ -1,5 +1,5 @@
 define([
-	'array/slice'
+	'./slice'
 ], (slice)->
 		(arrayLike)->
 			args = slice.call(arguments, 1)

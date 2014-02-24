@@ -1,13 +1,12 @@
 define([
-	'graphic'
-	'util'
-], (G, U)->
+	'./graphic'
+], (G)->
 
 	class Line extends G
 		constructor: (a, b)->
 			super
-			@a = a
-			@b = b
+			@a = +a or 0
+			@b = +b or 0
 			@
 		getY: (x)->
 			@a * x + @b
