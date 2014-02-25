@@ -11,6 +11,7 @@ define([
 			@p = +p or 2
 			@
 		getY: (x)->
+			x = x * @times
 			@a * Math.log(x) / Math.log(@p) + @b
 		getS: (x)->
 			0

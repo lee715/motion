@@ -7,7 +7,8 @@ define([
 	'../filter/add'
 	'../function/copyWithContext'
 	'../promise/type'
-], (F, Mix, slice, str2arr, filter, add, copy, type)->
+	'../event'
+], (F, Mix, slice, str2arr, filter, add, copy, type, Event)->
 
 	class Track 
 		constructor: (gpc, opts)->
@@ -31,36 +32,33 @@ define([
 			)
 			@filter = filter.apply(null, fil)
 			@filter.beforeEnd(1)
-			@start()
+			opts.autoStart and @start()
+		reverse: false
 		promise: ->
 			res = {}
-			copy(res, @, 'stop restart repeat on off')
+			copy(res, @, 'stop restart start repeat on')
 			copy(res, @filter)
 			res
-		on: (event, callback, context)->
-			$.event.add(event, @, callback)
-			this
-		off: (event, context)->
-		trigger: ->
-			$.trigger.apply(@, arguments)
 		start: ->
 			@status = 'moving'
 			m = setInterval(=>
 					if(@status is 'stop') then return clearInterval(m)
-					@timeCosted += 40
-					val = @gpc.getS(@timeCosted/1000)
-					console.log(val);
+					@timeCosted += 20
+					if @reverse
+						now = @t - @timeCosted/1000
+					else
+						now = @timeCosted/1000
+					val = @gpc.getS(now)
 					val = @filter.filter([val])[0]
-					console.log(val);
-					# @trigger('progress', val)
+					@trigger('progress', val)
 					if @timeCosted >= @t * 1000
 						@onEnd(m)
-				, 40)
+				, 20)
 		stop: ->
 			if @status is 'moving'
 				@status = 'stop'	
 		restart: ->
-			if @status is 'stop'
+			if @status is 'stop' or 'initialize'
 				@status = 'moving'
 				@start()
 		repeat: ->
@@ -96,6 +94,11 @@ define([
 					@t *= 0.8
 					@timeCosted = 0
 					@trigger('decay')
+				when 'reverse'
+					@reverse = not @reverse
+					@timeCosted = 0
+					@trigger('reverse')
+	$.extend(Track.prototype, Event)				
 
 	track = 
 		get: (track, opts)->

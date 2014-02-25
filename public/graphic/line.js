@@ -16,10 +16,12 @@
       }
 
       Line.prototype.getY = function(x) {
+        x = x * this.times;
         return this.a * x + this.b;
       };
 
       Line.prototype.getS = function(x) {
+        x = x * this.times;
         return this.a * x * x / 2 + this.b * x;
       };
 

@@ -1,6 +1,7 @@
 define([
 	'./graphic'
-], (G)->
+	'../util/util'
+], (G, U)->
 
 	class Parabola extends G
 		constructor: (a, b)->
@@ -9,7 +10,9 @@ define([
 			@b = +b or 0
 			@
 		getY: (x)->
+			x = x * @times
 			@a * U.power(x, 2) + @b
 		getS: (x)->
+			x = x * @times
 			@a * U.power(x, 3) / 3 + @b * x
 )

@@ -3,13 +3,28 @@
 <head>
 	<title></title>
 	<style type="text/css">
-	
+		div{
+			background: red;
+			width: 30px;
+			height:30px;
+			position: absolute;
+			left: 20px;
+			bottom: 20px;
+			border-radius: 30px;
+			color:white;
+			font-size: 10px;
+			line-height: 30px;
+			text-align: center;
+			cursor: pointer;
+		}
+		
 	</style>
 </head>
 <body>
-<div class="test1"></div>
-<div class="test2"></div>
-<div class="test2" style="top:80%"></div>
+<div class="ctrl-item" id="stop">Stop</div>
+<div class="ctrl-item" id="restart">Restart</div>
+<div class="ctrl-item" id="end">End</div>
+<div id="ctrl">Ctrl</div>
 <script type="text/javascript" src="jquery-min.js"></script>
 <script data-main='main2014224.js' src='require.js'></script>
 </body>

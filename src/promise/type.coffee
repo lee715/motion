@@ -15,7 +15,7 @@ define([
 		'plainObject': -> $.isPlainObject.apply(null, arguments)
 		'window': -> $.isWindow.apply(null, arguments)
 		'array': -> $.isArray.apply(null, arguments)
-		'object': (obj)->  toString.call(null, obj) is '[object Object]'
+		'object': (obj)->  toString.call(obj) is '[object Object]'
 		'undefined': (param)-> typeof param is 'undefined'
 		'arrayLike': (arrLike)-> $.isArrayLike.apply(null, arguments)
 	check = (type, args)->

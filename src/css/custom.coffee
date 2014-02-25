@@ -13,13 +13,13 @@ define([
 			handler = @getHandler(name)
 			handler.get.call(@, dom, name)
 		# 设置自定义css值
-		set: (dom, name, value)->
+		set: (dom, name, value, queue)->
 			handler = @getHandler(name)
 			data = {}
 			if handler.related
 				id = handler._id
 				data[name] = value
-				@queue.push(id, (data)=>
+				queue.push(id, (data)=>
 					handler.set.call(@, dom, data)
 				, data)
 			else

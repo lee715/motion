@@ -17,6 +17,7 @@
       }
 
       Log.prototype.getY = function(x) {
+        x = x * this.times;
         return this.a * Math.log(x) / Math.log(this.p) + this.b;
       };
 

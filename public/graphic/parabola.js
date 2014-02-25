@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['./graphic'], function(G) {
+  define(['./graphic', '../util/util'], function(G, U) {
     var Parabola;
     return Parabola = (function(_super) {
       __extends(Parabola, _super);
@@ -16,10 +16,12 @@
       }
 
       Parabola.prototype.getY = function(x) {
+        x = x * this.times;
         return this.a * U.power(x, 2) + this.b;
       };
 
       Parabola.prototype.getS = function(x) {
+        x = x * this.times;
         return this.a * U.power(x, 3) / 3 + this.b * x;
       };
 

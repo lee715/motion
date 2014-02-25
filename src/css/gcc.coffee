@@ -1,5 +1,6 @@
 define([
-], ->
+	'../util/util'
+], (U)->
 		# this function is used for getting compatible css
 		gcc = (prop)->
 			div = document.createElement('div')

@@ -25,7 +25,7 @@
         return $.isArray.apply(null, arguments);
       },
       'object': function(obj) {
-        return toString.call(null, obj) === '[object Object]';
+        return toString.call(obj) === '[object Object]';
       },
       'undefined': function(param) {
         return typeof param === 'undefined';

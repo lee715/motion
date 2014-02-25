@@ -9,7 +9,9 @@ define([
 			@b = +b or 0
 			@
 		getY: (x)->
+			x = x * @times
 			@a * x + @b
 		getS: (x)->
+			x = x * @times
 			@a * x * x / 2 + @b * x
 )

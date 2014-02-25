@@ -14,7 +14,7 @@
         handler = this.getHandler(name);
         return handler.get.call(this, dom, name);
       },
-      set: function(dom, name, value) {
+      set: function(dom, name, value, queue) {
         var data, handler, id,
           _this = this;
         handler = this.getHandler(name);
@@ -22,7 +22,7 @@
         if (handler.related) {
           id = handler._id;
           data[name] = value;
-          return this.queue.push(id, function(data) {
+          return queue.push(id, function(data) {
             return handler.set.call(_this, dom, data);
           }, data);
         } else {

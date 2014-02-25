@@ -1,18 +1,20 @@
 define([
 	'./track/track'
 	'./promise/type'
-], (Track, type)->
+	'./css/handler'
+], (Track, type, Css)->
+
+	$.fn.motion = (css, track, opts)->
+		motion([css, @], track, opts)
 	motion = (step, track, opts)->
-		# unless type('function', step)
-		# 	step = Css(step)
-		Css = 
-			step: (p)->
-				console.log(p)
+		unless type('function', step)
+			step = Css.apply(Css, step)
 		if step
 			ctl = Track.get(track, opts).promise()
-			ctl.on('progress', step, Css)
+			ctl.on('progress', step)
 				.on('done', ->
-					)
+					console.log('is done now')
+				)
 			ctl
-
+	return motion
 )
