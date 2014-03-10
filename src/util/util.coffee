@@ -66,7 +66,7 @@ define([
 			res = false
 			unit = (val)-> return val
 			match = false
-			reg = /[\d|.]+/g
+			reg = /[\d|.|-]+/g
 			for str in arr
 				if(typeof str is 'string')
 					str = str.replace(reg, ->
@@ -82,7 +82,7 @@ define([
 			return unit
 		withOutUnit: (arr)->
 			res = []
-			reg = /[^0-9\.]+/g
+			reg = /[^\d|.|-]+/g
 			if not $.isArray(arr) then arr = [arr]
 			$.each(arr, (index, item)->
 				unless item

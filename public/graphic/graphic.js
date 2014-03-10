@@ -11,6 +11,20 @@
         this;
       }
 
+      Graphic.prototype.getX = function(t) {
+        var x;
+        x = this.times * t;
+        return x;
+      };
+
+      Graphic.prototype.getY = function(t) {
+        return this._getY(this.getX(t));
+      };
+
+      Graphic.prototype.getS = function(t) {
+        return this._getS(this.getX(t));
+      };
+
       return Graphic;
 
     })();

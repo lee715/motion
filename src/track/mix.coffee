@@ -3,7 +3,8 @@ define([
 	'../promise/type'
 	'../array/str2arr'
 	'../array/slice'
-], (F, type, str2arr, slice)->
+	'../error'
+], (F, type, str2arr, slice, err)->
 
 	# holds all mixed tracks
 	mixs = {}
@@ -20,27 +21,19 @@ define([
 					break
 			return res
 		getY: (x)->
-			res = @_checkT(x, 'getY')
-			if( res isnt false )
-				return res
-			else
-				pos = @_getPos(x)
-				ts = @tArr
-				iss = @insArr
-				x -= ts[ pos - 1 ] or 0
-				res = iss[ pos ].getY(x)
-				return res
+			pos = @_getPos(x)
+			ts = @tArr
+			iss = @insArr
+			x -= ts[ pos - 1 ] or 0
+			res = iss[ pos ].getY(x)
+			return res
 		getS: (x)->
-			res = @_checkT(x, 'getS')
-			if( res isnt false )
-				return res
-			else
-				pos = @_getPos(x)
-				sArr = @_getSArr()
-				res = sArr[ pos - 1 ] or 0
-				x -= @tArr[ pos - 1 ] or 0
-				res += @insArr[pos].getS(x)
-				return res
+			pos = @_getPos(x)
+			sArr = @_getSArr()
+			res = sArr[ pos - 1 ] or 0
+			x -= @tArr[ pos - 1 ] or 0
+			res += @insArr[pos].getS(x)
+			return res
 		_getSArr: ->
 			if(@sArr) then return @sArr
 			ts = @tArr
@@ -84,16 +77,17 @@ define([
 					err('Unrecognized Parameter', arg)
 					continue
 			class X extends Mixin
-				constructor: (opts, tArr)->
+				constructor: (tArr)->
 					super
 					@insArr = insArr = @_insArr.slice()
 					if(tArr)
 						@tArr = tArr
 						for ins, i in insArr
-							ins._t = @tArr[i]
-					else
+
 						@tArr = []
 						for ins in insArr
+							ins._t = @tArr[i]
+					else
 							@tArr.push(ins._t)
 					@_t = U.getSum(@tArr)
 					@tArr = U.getSumArr( @tArr )

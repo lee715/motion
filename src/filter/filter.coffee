@@ -3,7 +3,8 @@ define([
 	'../array/str2arr'
 	'../array/insert'
 	'../array/indexOf'
-], (type, str2arr, insert, indexOf)->
+	'../graphic/factory'
+], (type, str2arr, insert, indexOf, F)->
 
 	class Filter
 		constructor: (orders, funcs)->
@@ -28,6 +29,8 @@ define([
 			@stack[name] = [func]
 			@
 		filter: (p)->
+			unless type('point', p)
+				p = F.get('point', p)
 			os = @orders
 			st = @stack
 			for o in os

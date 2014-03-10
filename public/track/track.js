@@ -9,14 +9,25 @@
         this.gpc = gpc;
         this.timeCosted = opts.delay && opts.delay * 1000 || 0;
         this.status = 'initialize';
-        this.t = opts.t || Infinity;
+        this.t = opts.t || gpc.t || Infinity;
         this.baseline = bl = opts.baseline || gpc.getS(this.t);
-        this.end = opts.end || 'stop';
+        this.endType = opts.endType || gpc.endType || 'stop';
         if (!(fil = opts.filter)) {
           fil = [[], []];
         }
         fil[0] = str2arr(fil[0]);
-        fil[0].push('beforeEnd');
+        fil[0] = fil[0].concat(['translate', 'decay', 'beforeEnd']);
+        fil[1].push(function(p) {
+          return this.translate(p);
+        });
+        fil[1].push(function(p) {
+          var i, k, _i, _len;
+          for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
+            k = this[i];
+            this[i] *= p;
+          }
+          return this;
+        });
         fil[1].push(function() {
           var i, k, _i, _len;
           for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
@@ -35,7 +46,7 @@
       Track.prototype.promise = function() {
         var res;
         res = {};
-        copy(res, this, 'stop restart start repeat on');
+        copy(res, this, 'stop restart start repeat on toEnd destory');
         copy(res, this.filter);
         return res;
       };
@@ -44,24 +55,34 @@
         var m,
           _this = this;
         this.status = 'moving';
-        return m = setInterval(function() {
-          var now, val;
-          if (_this.status === 'stop') {
-            return clearInterval(m);
-          }
-          _this.timeCosted += 20;
-          if (_this.reverse) {
-            now = _this.t - _this.timeCosted / 1000;
-          } else {
-            now = _this.timeCosted / 1000;
-          }
-          val = _this.gpc.getS(now);
-          val = _this.filter.filter([val])[0];
-          _this.trigger('progress', val);
+        this.timer = m = setInterval(function() {
+          _this.step();
           if (_this.timeCosted >= _this.t * 1000) {
             return _this.onEnd(m);
           }
         }, 20);
+        return this;
+      };
+
+      Track.prototype.destory = function() {
+        clearInterval(this.timer);
+        return delete this;
+      };
+
+      Track.prototype.step = function() {
+        var now, val;
+        if (this.status === 'stop') {
+          return clearInterval(this.timer);
+        }
+        this.timeCosted += 20;
+        if (this.reverse) {
+          now = this.t - this.timeCosted / 1000;
+        } else {
+          now = this.timeCosted / 1000;
+        }
+        val = this.gpc.getS(now);
+        val = this.filter.filter([val])[0];
+        return this.trigger('progress', val);
       };
 
       Track.prototype.stop = function() {
@@ -71,7 +92,7 @@
       };
 
       Track.prototype.restart = function() {
-        if (this.status === 'stop' || 'initialize') {
+        if (this.status === 'stop' || this.status === 'initialize') {
           this.status = 'moving';
           return this.start();
         }
@@ -85,35 +106,59 @@
         }
       };
 
+      Track.prototype.toEnd = function() {
+        if (this.endType === 'stop') {
+          this.timeCosted = this.t * 1000 - 20;
+          this.step();
+          return this.end();
+        }
+      };
+
+      Track.prototype.end = function() {
+        clearInterval(this.timer);
+        this.status = 'end';
+        return this.trigger('done');
+      };
+
       Track.prototype.onEnd = function(timer) {
-        var p, st, vt;
-        switch (this.end) {
+        var endType, gpc, st, vt;
+        endType = this.endType;
+        gpc = this.gpc;
+        switch (endType) {
           case 'stop':
-            clearInterval(timer);
-            this.status = 'end';
-            return this.trigger('done');
+            return this.end();
           case 'stay':
-            vt = this.gpc.getY(this.t);
-            st = this.gpc.getS(this.t);
+            vt = gpc.getY(this.t);
+            st = gpc.getS(this.t);
             this.gpc = F.get('line', 0, vt);
-            if (!this.filter.add) {
-              this.filter.register('add', add);
-            }
-            this.filter.add(st);
+            this.filter.translate([st]);
+            this.t = Infinity;
             this.timeCosted = 0;
             return this.trigger('stay');
           case 'repeat':
             this.timeCosted = 0;
             return this.trigger('repeat');
-          case 'decay-t':
-            p = this.opts['decay-t'] || 0.8;
-            this.t *= 0.8;
-            this.timeCosted = 0;
-            return this.trigger('decay');
           case 'reverse':
             this.reverse = !this.reverse;
             this.timeCosted = 0;
             return this.trigger('reverse');
+          case 'reverse-decay':
+            this.reverse = !this.reverse;
+            if (!this.reverse) {
+              this.filter.decay(0.8);
+            }
+            this.timeCosted = 0;
+            return this.trigger('reverse-decay');
+          default:
+            if (gpc[endType]) {
+              gpc[endType]();
+              this.t = gpc.t;
+              if (gpc.isEnded) {
+                return this.end();
+              }
+            }
+            this.timeCosted = 0;
+            return this.trigger(endType);
         }
       };
 

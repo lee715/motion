@@ -8,10 +8,8 @@ define([
 			@a = +a or 0
 			@b = +b or 0
 			@
-		getY: (x)->
-			x = x * @times
+		_getY: (x)->
 			@a * x + @b
-		getS: (x)->
-			x = x * @times
+		_getS: (x)->
 			@a * x * x / 2 + @b * x
 )

@@ -6,13 +6,13 @@ define([
 	'../array/toArrayLike'
 	'../array/toLength'
 	'../promise/type'
-], (last, slice, push, toArray, toArrayLike, toLength, type)->
+], (last, slice, push, toArray, toArrayLike, toLength, Type)->
 		class Point 
 			constructor: ->
 				args = slice.apply(arguments)
-				if args.length is 1 and type('array', args[0])
+				if args.length is 1 and Type('array', args[0])
 					args = args[0]
-				if type('string', last(args))
+				if Type('string', last(args))
 					type = args.pop()
 				else 
 					type = args.length + 'D'
@@ -28,17 +28,17 @@ define([
 					when 'polar'
 						len = 2
 						break
-				toArrayLike(@, args.slice(0, len))
+				toArrayLike(args.slice(0, len), @)
 				# only for inner use
 				@be = 'point'
 				@
 			set: ->
 				args = slice.apply(arguments)
-				if args.length is 1 and type('array', args[0])
+				if args.length is 1 and Type('array', args[0])
 					args = args[0]
 				args = toArray(arguments, 0, len)
 				len = @length
-				while --len
+				while len--
 					@[len] = args[len]
 				@
 			toIndex: (s)->
@@ -50,11 +50,11 @@ define([
 					j: 1
 				map[ s.toLowerCase() ]
 			get: (s)->
-				s = @toIndex(s)
 				pos = toArray( @ )
-				if type('undefined', s)
+				if Type('undefined', s)
 					pos
 				else
+					s = @toIndex(s)
 					pos[ s ]
 			clone: ->
 				args = @get()
@@ -73,9 +73,9 @@ define([
 				@
 			# 对称变换
 			sym: (p)->
-				if type('point', p) or type('arrayLike', p)
+				if Type('point', p) or Type('arrayLike', p)
 					@translate([ 2*(p[0]-@[0]), 2*(p[1]-@[1]) ])
-				else if type('graphic', p)
+				else if Type('graphic', p)
 					@sym( @getFootPoint(p) )
 			# 求垂足
 			getFootPoint: (line)->

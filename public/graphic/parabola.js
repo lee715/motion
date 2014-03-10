@@ -15,13 +15,11 @@
         this;
       }
 
-      Parabola.prototype.getY = function(x) {
-        x = x * this.times;
+      Parabola.prototype._getY = function(x) {
         return this.a * U.power(x, 2) + this.b;
       };
 
-      Parabola.prototype.getS = function(x) {
-        x = x * this.times;
+      Parabola.prototype._getS = function(x) {
         return this.a * U.power(x, 3) / 3 + this.b * x;
       };
 

@@ -85,7 +85,7 @@
           return val;
         };
         match = false;
-        reg = /[\d|.]+/g;
+        reg = /[\d|.|-]+/g;
         for (_i = 0, _len = arr.length; _i < _len; _i++) {
           str = arr[_i];
           if (typeof str === 'string') {
@@ -109,7 +109,7 @@
       withOutUnit: function(arr) {
         var reg, res;
         res = [];
-        reg = /[^0-9\.]+/g;
+        reg = /[^\d|.|-]+/g;
         if (!$.isArray(arr)) {
           arr = [arr];
         }

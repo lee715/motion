@@ -17,14 +17,22 @@ define([
 			@timeCosted = opts.delay and opts.delay * 1000 or 0
 			@status = 'initialize'
 			# format options
-			@t = opts.t or Infinity
+			@t = opts.t or gpc.t or Infinity
 			@baseline = bl = opts.baseline or gpc.getS(@t)
 			# what to do when the animation is ended, default is stop
-			@end = opts.end or 'stop'
+			@endType = opts.endType or gpc.endType or 'stop'
 			# prepare for filter
 			unless fil = opts.filter then fil = [[], []]
 			fil[0] = str2arr(fil[0])
-			fil[0].push('beforeEnd')
+			fil[0] = fil[0].concat(['translate','decay','beforeEnd'])
+			fil[1].push((p)->
+				@translate(p)
+			)
+			fil[1].push((p)->
+				for k,i in @
+					@[i] *= p
+				@
+			)
 			fil[1].push(->
 				for k,i in @
 					@[i] /= bl
@@ -36,29 +44,35 @@ define([
 		reverse: false
 		promise: ->
 			res = {}
-			copy(res, @, 'stop restart start repeat on')
+			copy(res, @, 'stop restart start repeat on toEnd destory')
 			copy(res, @filter)
 			res
 		start: ->
 			@status = 'moving'
-			m = setInterval(=>
-					if(@status is 'stop') then return clearInterval(m)
-					@timeCosted += 20
-					if @reverse
-						now = @t - @timeCosted/1000
-					else
-						now = @timeCosted/1000
-					val = @gpc.getS(now)
-					val = @filter.filter([val])[0]
-					@trigger('progress', val)
-					if @timeCosted >= @t * 1000
-						@onEnd(m)
-				, 20)
+			@timer = m = setInterval(=> 
+				@step()
+				if @timeCosted >= @t * 1000
+					@onEnd(m)
+			, 20)
+			@
+		destory: ->
+			clearInterval(@timer)
+			delete @
+		step: ->
+			if(@status is 'stop') then return clearInterval(@timer)
+			@timeCosted += 20
+			if @reverse
+				now = @t - @timeCosted/1000
+			else
+				now = @timeCosted/1000
+			val = @gpc.getS(now)
+			val = @filter.filter([val])[0]
+			@trigger('progress', val)
 		stop: ->
 			if @status is 'moving'
 				@status = 'stop'	
 		restart: ->
-			if @status is 'stop' or 'initialize'
+			if @status is 'stop' or @status is 'initialize'
 				@status = 'moving'
 				@start()
 		repeat: ->
@@ -66,38 +80,55 @@ define([
 				@status = 'moving'
 				@timeCosted = 0
 				@start()
+		toEnd: ->
+			if @endType is 'stop'
+				@timeCosted = @t * 1000 - 20
+				@step()
+				@end()
+		end: ->
+			clearInterval(@timer)
+			@status = 'end'
+			@trigger('done')
 		onEnd: (timer)->
-			switch @end
+			endType = @endType
+			gpc = @gpc
+			switch endType
 				when 'stop'
-					clearInterval(timer)
-					@status = 'end'
-					@trigger('done')
+					@end()
 				when 'stay'
 					# 末速度
-					vt = @gpc.getY(@t)
+					vt = gpc.getY(@t)
 					# 总路程
-					st = @gpc.getS(@t)
+					st = gpc.getS(@t)
 					# 将图形对象变为b为末速度的直线
 					@gpc = F.get('line', 0, vt)
 					# 将总路程加入过滤器中
-					unless @filter.add
-						@filter.register('add', add)
-					@filter.add(st)
+					@filter.translate([st])
+					@t = Infinity
 					# 清除已计算的时间
 					@timeCosted = 0
 					@trigger('stay')
 				when 'repeat'
 					@timeCosted = 0
 					@trigger('repeat')
-				when 'decay-t'
-					p = @opts['decay-t'] or 0.8
-					@t *= 0.8
-					@timeCosted = 0
-					@trigger('decay')
 				when 'reverse'
 					@reverse = not @reverse
 					@timeCosted = 0
 					@trigger('reverse')
+				when 'reverse-decay'
+					@reverse = not @reverse
+					unless @reverse
+						@filter.decay(0.8)
+					@timeCosted = 0
+					@trigger('reverse-decay')
+				else
+					if gpc[endType]
+						gpc[endType]()
+						@t = gpc.t
+						if gpc.isEnded
+							return @end()
+					@timeCosted = 0
+					@trigger(endType)
 	$.extend(Track.prototype, Event)				
 
 	track = 

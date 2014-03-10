@@ -10,9 +10,9 @@ define([
 			@b = +b or 0
 			@p = +p or 2
 			@
-		getY: (x)->
+		_getY: (x)->
 			x = x * @times
 			@a * Math.log(x) / Math.log(@p) + @b
-		getS: (x)->
+		_getS: (x)->
 			0
 )

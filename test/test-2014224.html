@@ -3,7 +3,10 @@
 <head>
 	<title></title>
 	<style type="text/css">
-		div{
+		body{
+			overflow: hidden;
+		}
+		div.ctrl-item, .ctrl, .ball{
 			background: red;
 			width: 30px;
 			height:30px;
@@ -17,14 +20,96 @@
 			text-align: center;
 			cursor: pointer;
 		}
-		
+		.container{
+			position: absolute;
+		}
+		#demo3{
+			width: 800px;
+			height:600px;
+			position: absolute;
+			left: 50%;
+			top:50%;
+			margin-left:-400px;
+			margin-top:-300px;
+			border: 1px solid #eee;
+			overflow: hidden;
+			background: #000;
+		}
+		#demo3 .line{
+			width: 360px;
+			height:1px;
+			position: absolute;
+			border-top:1px solid #fff;
+			top:50%;
+			left: 20px;
+		}
+		#demo3 .ball1_up{
+			left:50%;
+			top:50%;
+			margin-top:-30px;
+			margin-left: -430px;
+		}
+		#demo3 .ball1_down{
+			left:50%;
+			top:50%;
+			margin-top:0px;
+			margin-left: -430px;
+			opacity: 0.4;
+		}
+		/*#demo3 .ball2_up{
+			left:50%;
+			top:50%;
+			margin-top:-230px;
+			margin-left: -95px;
+		}
+		#demo3 .ball2_down{
+			left:50%;
+			top:50%;
+			margin-top:200px;
+			margin-left: -95px;
+			opacity: 0.1;
+		}
+		#demo3 .ball3_up{
+			left:50%;
+			top:50%;
+			margin-top:-230px;
+			margin-left: 75px;
+		}
+		#demo3 .ball3_down{
+			left:50%;
+			top:50%;
+			margin-top:200px;
+			margin-left: 75px;
+			opacity: 0.1;
+		}*/
 	</style>
 </head>
 <body>
-<div class="ctrl-item" id="stop">Stop</div>
-<div class="ctrl-item" id="restart">Restart</div>
-<div class="ctrl-item" id="end">End</div>
-<div id="ctrl">Ctrl</div>
+<div style="display:none">
+	<div class="ctrl-item" id="stop">Stop</div>
+	<div class="ctrl-item" id="restart">Restart</div>
+	<div class="ctrl-item" id="end">End</div>
+	<div id="ctrl">Ctrl</div>
+</div>
+<div id="demo2">
+	<div class="container">
+		<div class="ctrl-item stop">Stop</div>
+		<div class="ctrl-item restart">Restart</div>
+		<div class="ctrl-item end">End</div>
+		<div class="ctrl-item stop">Stop</div>
+		<div class="ctrl-item restart">Restart</div>
+		<div class="ctrl-item end">End</div>
+		<div class="ctrl-item stop">Stop</div>
+		<div class="ctrl-item restart">Restart</div>
+	</div>
+	<div class="ctrl">Ctrl</div>
+</div>
+<div id="demo3">
+	<!-- <div class="ball ball2 ball2_up"></div>
+	<div class="ball ball2 ball2_down"></div>
+	<div class="ball ball3 ball3_up"></div>
+	<div class="ball ball3 ball3_down"></div> -->
+</div>
 <script type="text/javascript" src="jquery-min.js"></script>
 <script data-main='main2014224.js' src='require.js'></script>
 </body>

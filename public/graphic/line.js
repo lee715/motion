@@ -15,13 +15,11 @@
         this;
       }
 
-      Line.prototype.getY = function(x) {
-        x = x * this.times;
+      Line.prototype._getY = function(x) {
         return this.a * x + this.b;
       };
 
-      Line.prototype.getS = function(x) {
-        x = x * this.times;
+      Line.prototype._getS = function(x) {
         return this.a * x * x / 2 + this.b * x;
       };
 

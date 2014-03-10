@@ -14,9 +14,10 @@ define([
 	names = 'graphic line log lg parabola point'.split(' ')
 	funcs = slice.call(arguments, -6)
 	basic = {}
+	classes = {}
 	for name, i in names 
 		basic[name] = wrap(funcs[i])
-
+		classes[name] = funcs[i]
 	# holds Classes build by factory.create
 	custom = {}
 
@@ -36,10 +37,10 @@ define([
 		#   parent: {String} 父类
 		class: (name, ctor, statics, parent)->
 			parent = parent and parent.toLowerCase() or 'graphic'
-			Pnt = @get(parent)
+			Pnt = classes[parent or 'graphic'] 
 			class X extends Pnt
 				constructor: ctor
-			$.extend(X.__super__, statics)
+			$.extend(X.prototype, statics)
 			custom[name] = wrap(X)
 			true
 )
