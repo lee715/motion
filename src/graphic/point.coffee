@@ -60,21 +60,33 @@ define([
 				args = @get()
 				args.push(@type)
 				new Point(args)
+      toLength: (p)->
+        if type('number', p) then p = [p]
+        if Type('point', p) or Type('arrayLike', p)
+          len = @length
+          p = toLength(p, len)
+          return p
+        else
+          return false
 			# 平移变换
 			translate: ->
 				args = toArray(arguments)
 				now = @get()
-				len = @length
 				for arg in args
-					arg = toLength(arg, len)
-					for a, i in arg
-						now[i] += a
+					arg = @toLength(arg)
+          if arg
+            for a, i in arg
+              now[i] += a
 				@set(now)
 				@
 			# 对称变换
 			sym: (p)->
-				if Type('point', p) or Type('arrayLike', p)
-					@translate([ 2*(p[0]-@[0]), 2*(p[1]-@[1]) ])
+				p = @toLength(p)
+        if p
+          now = @get()
+          for i in [0..@length-1]
+            now[i] = 2*(p[i]-now[i])
+					@translate(now)
 				else if Type('graphic', p)
 					@sym( @getFootPoint(p) )
 			# 求垂足

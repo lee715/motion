@@ -40,6 +40,8 @@ define([
 			)
 			@filter = filter.apply(null, fil)
 			@filter.beforeEnd(1)
+      # for custom events
+      opts.events and this.customEvents = opts.events
 			opts.autoStart and @start()
 		reverse: false
 		promise: ->
@@ -68,6 +70,10 @@ define([
 			val = @gpc.getS(now)
 			val = @filter.filter([val])[0]
 			@trigger('progress', val)
+      # trigger custom events
+      evs = this.customEvents
+      for name, func of evs
+        if func(@timeCosted/1000, val) then this.trigger(name)
 		stop: ->
 			if @status is 'moving'
 				@status = 'stop'	

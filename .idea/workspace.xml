@@ -2,28 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3025bfb-2dbe-472c-add4-d77708bc34d9" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CssHandler.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Track.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Utilities.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ball.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/m-min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/matrix.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/motion.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/motion.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/m-min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/track-ex.coffee" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/CssHandler.js" afterPath="$PROJECT_DIR$/test/CssHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Track.js" afterPath="$PROJECT_DIR$/test/Track.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Utilities.js" afterPath="$PROJECT_DIR$/test/Utilities.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ball.html" afterPath="$PROJECT_DIR$/test/ball.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/main.js" afterPath="$PROJECT_DIR$/test/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/matrix.js" afterPath="$PROJECT_DIR$/test/matrix.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/motion.js" afterPath="$PROJECT_DIR$/test/motion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/track-ex.js" afterPath="$PROJECT_DIR$/test/track-ex.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filter/filter.coffee" afterPath="$PROJECT_DIR$/src/filter/filter.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/graphic/point.coffee" afterPath="$PROJECT_DIR$/src/graphic/point.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/array/toLength.coffee" afterPath="$PROJECT_DIR$/src/array/toLength.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/track/track.coffee" afterPath="$PROJECT_DIR$/src/track/track.coffee" />
     </list>
     <ignored path="motion.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387849643352" ignored="false" />
+    <file path="/Dummy.txt" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1394941373347" ignored="false" />
     <file path="/Utilities.js" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387852358911" ignored="false" />
     <file path="/main.js" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387856363363" ignored="false" />
     <file path="/motion.js" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387852434032" ignored="false" />
@@ -33,6 +19,10 @@
     <file path="/Track.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387856084438" ignored="false" />
     <file path="/track-ex.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387855234240" ignored="false" />
     <file path="/Utilities.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1387855943327" ignored="false" />
+    <file path="/track.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1394942202808" ignored="false" />
+    <file path="/filter.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1394997426729" ignored="false" />
+    <file path="/toLength.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1394995260202" ignored="false" />
+    <file path="/point.coffee" changelist="b3025bfb-2dbe-472c-add4-d77708bc34d9" time="1394996332868" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,82 +42,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Utilities.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffees/Utilities.coffee">
+      <file leaf-file-name="track.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/track/track.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="185" column="24" selection-start="3682" selection-end="3682" vertical-scroll-proportion="-12.76">
+            <state line="35" column="48" selection-start="912" selection-end="912" vertical-scroll-proportion="-9.6">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="motion.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffees/motion.coffee">
+      <file leaf-file-name="filter.coffee" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/filter/filter.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="56" column="10" selection-start="1176" selection-end="1176" vertical-scroll-proportion="0.55259025">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ball.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/ball.html">
+      <file leaf-file-name="point.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphic/point.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="12" selection-start="744" selection-end="744" vertical-scroll-proportion="0.8319739">
+            <state line="86" column="32" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-17.68">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="新建文本文档 (3).html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/新建文本文档 (3).html">
+      <file leaf-file-name="toLength.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/array/toLength.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="4" selection-start="32" selection-end="462" vertical-scroll-proportion="-1.875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="28" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CssHandler.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffees/CssHandler.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="48.4">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CssHandler.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/CssHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="track-ex.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffees/track-ex.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="19" selection-start="546" selection-end="546" vertical-scroll-proportion="-21.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Track.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffees/Track.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="299" column="47" selection-start="6402" selection-end="6402" vertical-scroll-proportion="-179.4">
+            <state line="10" column="28" selection-start="208" selection-end="208" vertical-scroll-proportion="-6.0">
               <folding />
             </state>
           </provider>
@@ -151,7 +96,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test/Utilities.js" />
         <option value="$PROJECT_DIR$/test/motion.js" />
         <option value="$PROJECT_DIR$/CssHandler.coffee" />
         <option value="$PROJECT_DIR$/matrix.coffee" />
@@ -164,6 +108,10 @@
         <option value="$PROJECT_DIR$/coffees/Track.coffee" />
         <option value="$PROJECT_DIR$/test/main.js" />
         <option value="$PROJECT_DIR$/test/ball.html" />
+        <option value="$PROJECT_DIR$/src/track/track.coffee" />
+        <option value="$PROJECT_DIR$/src/array/toLength.coffee" />
+        <option value="$PROJECT_DIR$/src/graphic/point.coffee" />
+        <option value="$PROJECT_DIR$/src/filter/filter.coffee" />
       </list>
     </option>
   </component>
@@ -215,16 +163,6 @@
               <option name="myItemId" value="motion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="motion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="motion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -240,7 +178,89 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="coffees" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graphic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="array" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="motion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -254,6 +274,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Web" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -269,22 +300,22 @@
     <frame x="0" y="22" width="1440" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24982357" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24982357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15737474" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -357,100 +388,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/motion.js">
+    <entry file="file://$PROJECT_DIR$/src/track/track.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="8" selection-start="57" selection-end="57" vertical-scroll-proportion="0.0">
+        <state line="35" column="48" selection-start="912" selection-end="912" vertical-scroll-proportion="-9.6">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/新建文本文档 (3).html">
+    <entry file="file://$PROJECT_DIR$/src/array/toLength.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="10" column="28" selection-start="208" selection-end="208" vertical-scroll-proportion="-6.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/track-ex.js">
+    <entry file="file://$PROJECT_DIR$/src/graphic/point.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="86" column="32" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-17.68">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/m-min.coffee">
+    <entry file="file://$PROJECT_DIR$/src/filter/filter.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/Utilities.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="44" selection-start="217" selection-end="217" vertical-scroll-proportion="-7.1363635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffees/Utilities.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="185" column="24" selection-start="3682" selection-end="3682" vertical-scroll-proportion="-12.76">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffees/Track.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="299" column="47" selection-start="6402" selection-end="6402" vertical-scroll-proportion="-179.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffees/track-ex.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="19" selection-start="546" selection-end="546" vertical-scroll-proportion="-21.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffees/motion.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffees/CssHandler.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="48.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/CssHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="28" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/新建文本文档 (3).html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="32" selection-end="462" vertical-scroll-proportion="-1.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/ball.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="12" selection-start="744" selection-end="744" vertical-scroll-proportion="0.8319739">
+        <state line="56" column="10" selection-start="1176" selection-end="1176" vertical-scroll-proportion="0.55259025">
           <folding />
         </state>
       </provider>

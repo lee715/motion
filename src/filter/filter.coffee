@@ -3,8 +3,28 @@ define([
 	'../array/str2arr'
 	'../array/insert'
 	'../array/indexOf'
+  '../array/toLength'
 	'../graphic/factory'
-], (type, str2arr, insert, indexOf, F)->
+], (type, str2arr, insert, indexOf, toLength, F)->
+  # 加减
+  translate = (p)->
+    @translate(p)
+  # 乘除
+  multi = (p)->
+    now = @get()
+    len = @length
+    p = toLength(p, len)
+    for i in [0..len-1]
+      now[i] = now[i]*p[i]
+    @set(now)
+  # 对称
+  sym = (p)->
+    @sym(p)
+
+  Funcs =
+    translate: translate
+    multi: multi
+    sym: sym
 
 	class Filter
 		constructor: (orders, funcs)->
@@ -16,18 +36,27 @@ define([
 					_funcs.push(funcs[order] or ->)
 				funcs = _funcs
 			for order, i in orders
-				@stack[order] = [funcs[i]]
+        func = @getFunc(funcs[i])
+				@stack[order] = [func]
 				@[order] = ((order)->
 						(param)=>
 							@stack[order].push(param)
 					).call(@, order)
 			@
+    getFunc: (func)->
+      if(type('string', func))
+        return Funcs[func]
+      else
+        return func
 		register: (name, func, prev)->
 			os = @orders
 			ind = prev and indexOf(os, prev) or 0
 			insert(os, name, ind+1)
+      func = @getFunc(func)
 			@stack[name] = [func]
 			@
+    extend: (name, func)->
+      Funcs[name] = func
 		filter: (p)->
 			unless type('point', p)
 				p = F.get('point', p)
