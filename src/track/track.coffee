@@ -10,6 +10,8 @@ define([
 	'../event'
 ], (F, Mix, slice, str2arr, filter, add, copy, type, Event)->
 
+	Events = {}
+
 	class Track 
 		constructor: (gpc, opts)->
 			@opts = opts = opts or {}
@@ -24,7 +26,7 @@ define([
 			# prepare for filter
 			unless fil = opts.filter then fil = [[], []]
 			fil[0] = str2arr(fil[0])
-			fil[0] = fil[0].concat(['translate','decay','beforeEnd'])
+			fil[0] = fil[0].concat(['translate','decay','beforeEnd','sbs'])
 			fil[1].push((p)->
 				@translate(p)
 			)
@@ -41,7 +43,7 @@ define([
 			@filter = filter.apply(null, fil)
 			@filter.beforeEnd(1)
       # for custom events
-      opts.events and this.customEvents = opts.events
+      opts.events and Events = _.extend(Events, opts.events)
 			opts.autoStart and @start()
 		reverse: false
 		promise: ->
@@ -71,7 +73,7 @@ define([
 			val = @filter.filter([val])[0]
 			@trigger('progress', val)
       # trigger custom events
-      evs = this.customEvents
+      evs = Events
       for name, func of evs
         if func(@timeCosted/1000, val) then this.trigger(name)
 		stop: ->
@@ -159,5 +161,8 @@ define([
 				unless gpc = Mix.get.apply(Mix, args)
 					gpc = F.get.apply(F, args)
 			gpc
+		# extend custom events for all animations
+		extendEvent: (name, judgeFunc)->
+			Event[name] = judgeFunc
 
 )
