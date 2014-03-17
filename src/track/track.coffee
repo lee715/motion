@@ -45,7 +45,11 @@ define([
       # for custom events
       opts.events and Events = _.extend(Events, opts.events)
 			opts.autoStart and @start()
+		# 控制动画执行的正逆
 		reverse: false
+		# 控制动画计算值的正负
+		minus: false
+		# 返回控制器供外部控制动画运行时
 		promise: ->
 			res = {}
 			copy(res, @, 'stop restart start repeat on toEnd destory')
@@ -129,6 +133,8 @@ define([
 						@filter.decay(0.8)
 					@timeCosted = 0
 					@trigger('reverse-decay')
+				when 'step-by-step'
+
 				else
 					if gpc[endType]
 						gpc[endType]()
