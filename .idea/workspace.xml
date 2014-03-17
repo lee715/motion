@@ -42,7 +42,7 @@
       <file leaf-file-name="track.coffee" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/track/track.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="20" selection-start="2166" selection-end="2166" vertical-scroll-proportion="0.6357928">
+            <state line="31" column="0" selection-start="853" selection-end="853" vertical-scroll-proportion="0.52904236">
               <folding />
             </state>
           </provider>
@@ -408,7 +408,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/track/track.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="20" selection-start="2166" selection-end="2166" vertical-scroll-proportion="0.6357928">
+        <state line="31" column="0" selection-start="853" selection-end="853" vertical-scroll-proportion="0.52904236">
           <folding />
         </state>
       </provider>
