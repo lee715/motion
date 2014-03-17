@@ -25,14 +25,8 @@ define([
 			unless fil = opts.filter then fil = [[], []]
 			fil[0] = str2arr(fil[0])
 			fil[0] = fil[0].concat(['translate','decay','beforeEnd'])
-			fil[1].push((p)->
-				@translate(p)
-			)
-			fil[1].push((p)->
-				for k,i in @
-					@[i] *= p
-				@
-			)
+			fil[1].push('translate')
+			fil[1].push('multi')
 			fil[1].push(->
 				for k,i in @
 					@[i] /= bl
@@ -46,7 +40,7 @@ define([
 		reverse: false
 		promise: ->
 			res = {}
-			copy(res, @, 'stop restart start repeat on toEnd destory')
+			copy(res, @, 'stop restart start repeat on toEnd destory percent')
 			copy(res, @filter)
 			res
 		start: ->
@@ -60,8 +54,8 @@ define([
 		destory: ->
 			clearInterval(@timer)
 			delete @
-		step: ->
-			if(@status is 'stop') then return clearInterval(@timer)
+		step: (always)->
+			if(@status is 'stop' and not always) then return clearInterval(@timer)
 			@timeCosted += 20
 			if @reverse
 				now = @t - @timeCosted/1000
@@ -86,6 +80,9 @@ define([
 				@status = 'moving'
 				@timeCosted = 0
 				@start()
+    percent: (p)->
+      @timeCosted = p * @t * 1000 - 20
+      @step(true)
 		toEnd: ->
 			if @endType is 'stop'
 				@timeCosted = @t * 1000 - 20
