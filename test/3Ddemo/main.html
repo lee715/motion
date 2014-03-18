@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	.stage{
+		position: absolute;
+		width: 800px;
+		height: 400px;
+		top:44%;
+		left: 50%;
+		margin-top:-200px;
+		margin-left: -400px;
+		-webkit-perspective: 1200px;
+	}
+	#demos{
+		position: relative;
+		width: 100px;
+		height: 100px;
+		margin:auto;
+		-webkit-transform-style: preserve-3d;
+	}
+	.demo{
+		position: absolute;
+		left: 50%;
+		margin-left: -200px;
+		width: 400px;
+		height: 400px;
+		background-color: #33ff66;
+	}
+	</style>
+</head>
+<body>
+	<div class="stage">
+		<div id="demos">
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+			<div class="demo"></div>
+		</div>
+	</div>
+
+<script type="text/javascript" src="../jquery-min.js"></script>
+<!-- <script data-main='main.js' src='../require.js'></script> -->
+<script type="text/javascript">
+var getRandomColor = function(){
+	var cols = [ 0, 0 ,0], i = 0, rand;
+
+	for( ; i < 3 ; i++ ) {
+		rand = Math.round( Math.random() * 15 ).toString(16);
+		cols[i] = rand + rand;
+	}	
+
+	return "#" + cols.join('');
+}
+$('.demo').each(function(ind, dom){
+	var $dom = $(dom);
+	$dom.css({
+		'-webkit-transform': 'rotateY('+ ind*40 +'deg) translateZ(580px)',
+		'background-color': getRandomColor()
+	});
+})
+</script>
+</body>
+</html>
