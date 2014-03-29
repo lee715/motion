@@ -5,6 +5,7 @@
     Handler = (function() {
       function Handler(css, dom, opts) {
         var $dom;
+        this.opts = opts || {};
         this.$dom = $dom = $(dom);
         this.initOriginCss(css);
         this._css = css;
@@ -36,17 +37,23 @@
       };
 
       Handler.prototype.initStep = function() {
-        var endC, startC,
+        var endC, isStep, startC,
           _this = this;
+        isStep = this.opts.endType === 'step';
         endC = this._css;
         startC = this._o;
         return this.step = function(p) {
-          var va, _cur;
+          var key, val, _cur;
           _cur = {};
-          for (va in endC) {
-            _cur[va] = U.awu('-', endC[va], startC[va]);
-            _cur[va] = U.awu('*', _cur[va], p);
-            _cur[va] = U.awu('+', _cur[va], startC[va]);
+          for (key in endC) {
+            val = endC[key];
+            if (isStep) {
+              _cur[key] = val;
+            } else {
+              _cur[key] = U.awu('-', val, startC[key]);
+            }
+            _cur[key] = U.awu('*', _cur[key], p);
+            _cur[key] = U.awu('+', _cur[key], startC[key]);
           }
           return _this.set(_cur);
         };

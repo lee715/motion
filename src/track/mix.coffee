@@ -82,8 +82,8 @@ define([
 					@insArr = insArr = @_insArr.slice()
 					if(tArr)
 						@tArr = tArr
-						for ins, i in insArr
-
+						# for ins, i in insArr
+							
 						@tArr = []
 						for ins in insArr
 							ins._t = @tArr[i]

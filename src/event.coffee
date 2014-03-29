@@ -11,6 +11,7 @@ define([
 				_e[evt].push([callback, context])
 			@
 		trigger: (event, data)->
+			unless @_events then return false
 			if cbs = @_events[event]
 				for cb in cbs
 					cb[0].call(cb[1], data)

@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['../graphic/factory', '../promise/type', '../array/str2arr', '../array/slice'], function(F, type, str2arr, slice) {
+  define(['../graphic/factory', '../promise/type', '../array/str2arr', '../array/slice', '../error'], function(F, type, str2arr, slice, err) {
     var G, Mix, Mixin, mixs, _ref;
     mixs = {};
     G = F.get('graphic');
@@ -31,32 +31,22 @@
 
       Mixin.prototype.getY = function(x) {
         var iss, pos, res, ts;
-        res = this._checkT(x, 'getY');
-        if (res !== false) {
-          return res;
-        } else {
-          pos = this._getPos(x);
-          ts = this.tArr;
-          iss = this.insArr;
-          x -= ts[pos - 1] || 0;
-          res = iss[pos].getY(x);
-          return res;
-        }
+        pos = this._getPos(x);
+        ts = this.tArr;
+        iss = this.insArr;
+        x -= ts[pos - 1] || 0;
+        res = iss[pos].getY(x);
+        return res;
       };
 
       Mixin.prototype.getS = function(x) {
         var pos, res, sArr;
-        res = this._checkT(x, 'getS');
-        if (res !== false) {
-          return res;
-        } else {
-          pos = this._getPos(x);
-          sArr = this._getSArr();
-          res = sArr[pos - 1] || 0;
-          x -= this.tArr[pos - 1] || 0;
-          res += this.insArr[pos].getS(x);
-          return res;
-        }
+        pos = this._getPos(x);
+        sArr = this._getSArr();
+        res = sArr[pos - 1] || 0;
+        x -= this.tArr[pos - 1] || 0;
+        res += this.insArr[pos].getS(x);
+        return res;
       };
 
       Mixin.prototype._getSArr = function() {
@@ -108,22 +98,19 @@
         X = (function(_super) {
           __extends(X, _super);
 
-          function X(opts, tArr) {
-            var i, insArr, _j, _k, _len1, _len2;
+          function X(tArr) {
+            var insArr, _j, _len1;
             X.__super__.constructor.apply(this, arguments);
             this.insArr = insArr = this._insArr.slice();
             if (tArr) {
               this.tArr = tArr;
-              for (i = _j = 0, _len1 = insArr.length; _j < _len1; i = ++_j) {
-                ins = insArr[i];
+              this.tArr = [];
+              for (_j = 0, _len1 = insArr.length; _j < _len1; _j++) {
+                ins = insArr[_j];
                 ins._t = this.tArr[i];
               }
             } else {
-              this.tArr = [];
-              for (_k = 0, _len2 = insArr.length; _k < _len2; _k++) {
-                ins = insArr[_k];
-                this.tArr.push(ins._t);
-              }
+              this.tArr.push(ins._t);
             }
             this._t = U.getSum(this.tArr);
             this.tArr = U.getSumArr(this.tArr);

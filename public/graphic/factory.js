@@ -14,7 +14,9 @@
       basic[name] = wrap(funcs[i]);
       classes[name] = funcs[i];
     }
-    custom = {};
+    custom = {
+      nial: 1
+    };
     return factory = {
       get: function(name) {
         if (typeof name === 'string') {
@@ -41,7 +43,9 @@
 
         })(Pnt);
         $.extend(X.prototype, statics);
+        console.log(custom);
         custom[name] = wrap(X);
+        console.log(custom);
         return true;
       }
     };

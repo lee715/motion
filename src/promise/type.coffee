@@ -17,7 +17,13 @@ define([
 		'array': -> $.isArray.apply(null, arguments)
 		'object': (obj)->  toString.call(obj) is '[object Object]'
 		'undefined': (param)-> typeof param is 'undefined'
-		'arrayLike': (arrLike)-> $.isArrayLike.apply(null, arguments)
+		'arrayLike': (arrLike)-> isArrayLike(arrLike)
+	isArrayLike = (obj)->
+		len = obj.length
+		type = $.type(obj)
+		if(type is 'function' or $.isWindow(obj)) then return false
+		if obj.nodeType is 1 and len then return true
+		return type is 'array' or len is 0 or typeof len is 'number' and len > 0 and (len-1) in obj
 	check = (type, args)->
 		if not valids[type]
 			if args['be'] is type

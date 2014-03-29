@@ -19,6 +19,9 @@
       },
       trigger: function(event, data) {
         var cb, cbs, _i, _len, _results;
+        if (!this._events) {
+          return false;
+        }
         if (cbs = this._events[event]) {
           _results = [];
           for (_i = 0, _len = cbs.length; _i < _len; _i++) {

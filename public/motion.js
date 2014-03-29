@@ -8,6 +8,7 @@
     motion = function(step, track, opts) {
       var ctl;
       if (!type('function', step)) {
+        step.push(opts);
         step = Css.apply(Css, step);
       }
       if (step) {

@@ -1,7 +1,8 @@
 define([
 	'../public/motion',
 	'../public/ex-ones/matrix',
-	'../public/ex-ones/fallball'
+	'../public/ex-ones/fallball',
+	'../public/graphic/factory'
 ], function(m){
 	var getRandomColor = function(){
 		var cols = [ 0, 0 ,0], i = 0, rand;

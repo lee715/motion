@@ -9,6 +9,7 @@ define([
 
 	class Handler
 		constructor: (css, dom, opts)->
+			@opts = opts || {}
 			@$dom = $dom = $(dom)
 			@initOriginCss(css)
 			@_css = css
@@ -30,14 +31,18 @@ define([
 				err('type error in initOriginCss')
 		# init step function
 		initStep: ->
+			isStep = @opts.endType is 'step'
 			endC = @_css
 			startC = @_o
 			@step = (p)=>
 				_cur = {}
-				for va of endC
-					_cur[va] = U.awu('-', endC[va] ,startC[va])
-					_cur[va] = U.awu('*', _cur[va], p)
-					_cur[va] = U.awu('+', _cur[va], startC[va])
+				for key,val of endC
+					if(isStep)
+						_cur[key] = val 
+					else
+						_cur[key] = U.awu('-', val ,startC[key])
+					_cur[key] = U.awu('*', _cur[key], p)
+					_cur[key] = U.awu('+', _cur[key], startC[key])
 				@set(_cur)
 		get: (name)->
 			return @_attr('get', name)

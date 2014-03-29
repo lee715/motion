@@ -19,8 +19,9 @@ define([
 		basic[name] = wrap(funcs[i])
 		classes[name] = funcs[i]
 	# holds Classes build by factory.create
-	custom = {}
-
+	custom = {
+		nial: 1
+	}
 	factory = 
 
 		get: (name)->
@@ -41,6 +42,8 @@ define([
 			class X extends Pnt
 				constructor: ctor
 			$.extend(X.prototype, statics)
+			console.log(custom)
 			custom[name] = wrap(X)
+			console.log(custom)
 			true
 )

@@ -2,6 +2,7 @@
 (function() {
   define(['../array/last', '../array/slice', '../array/push', '../array/toArray', '../array/toArrayLike', '../array/toLength', '../promise/type'], function(last, slice, push, toArray, toArrayLike, toLength, Type) {
     var Point;
+    console.log(1);
     return Point = (function() {
       function Point() {
         var args, len, type;
@@ -38,7 +39,7 @@
         if (args.length === 1 && Type('array', args[0])) {
           args = args[0];
         }
-        args = toArray(arguments, 0, len);
+        args = toArray(args, 0, len);
         len = this.length;
         while (len--) {
           this[len] = args[len];
@@ -76,17 +77,50 @@
         return new Point(args);
       };
 
+      Point.prototype.toLength = function(p) {
+        var len;
+        if (Type('number', p)) {
+          p = [p];
+        }
+        if (Type('point', p) || Type('arrayLike', p)) {
+          len = this.length;
+          p = toLength(p, len);
+          return p;
+        } else {
+          return false;
+        }
+      };
+
       Point.prototype.translate = function() {
-        var a, arg, args, i, len, now, _i, _j, _len, _len1;
+        var a, arg, args, i, now, _i, _j, _len, _len1;
         args = toArray(arguments);
         now = this.get();
-        len = this.length;
         for (_i = 0, _len = args.length; _i < _len; _i++) {
           arg = args[_i];
-          arg = toLength(arg, len);
-          for (i = _j = 0, _len1 = arg.length; _j < _len1; i = ++_j) {
-            a = arg[i];
-            now[i] += a;
+          arg = this.toLength(arg);
+          if (arg) {
+            for (i = _j = 0, _len1 = arg.length; _j < _len1; i = ++_j) {
+              a = arg[i];
+              now[i] += a;
+            }
+          }
+        }
+        this.set(now);
+        return this;
+      };
+
+      Point.prototype.multi = function() {
+        var a, arg, args, i, now, _i, _j, _len, _len1;
+        args = toArray(arguments);
+        now = this.get();
+        for (_i = 0, _len = args.length; _i < _len; _i++) {
+          arg = args[_i];
+          arg = this.toLength(arg);
+          if (arg) {
+            for (i = _j = 0, _len1 = arg.length; _j < _len1; i = ++_j) {
+              a = arg[i];
+              now[i] *= a;
+            }
           }
         }
         this.set(now);
@@ -94,8 +128,14 @@
       };
 
       Point.prototype.sym = function(p) {
-        if (Type('point', p) || Type('arrayLike', p)) {
-          return this.translate([2 * (p[0] - this[0]), 2 * (p[1] - this[1])]);
+        var i, now, _i, _ref;
+        p = this.toLength(p);
+        if (p) {
+          now = this.get();
+          for (i = _i = 0, _ref = this.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+            now[i] = 2 * (p[i] - now[i]);
+          }
+          return this.translate(now);
         } else if (Type('graphic', p)) {
           return this.sym(this.getFootPoint(p));
         }

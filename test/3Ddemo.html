@@ -46,9 +46,13 @@
 			cursor: pointer;
 		}
 		.container{
-			/*position: absolute;*/
+			position: absolute;
+			z-index: 10;
 		}
-		#demo3{
+		#fallBallDemoCtrl .ctrl{
+			z-index: 11;
+		}
+		#fallBallDemo{
 			width: 400px;
 			height:300px;
 			position: absolute;
@@ -60,7 +64,7 @@
 			overflow: hidden;
 			background: #000;
 		}
-		#demo3 .line{
+		#fallBallDemo .line{
 			width: 360px;
 			height:1px;
 			position: absolute;
@@ -68,27 +72,60 @@
 			top:50%;
 			left: 20px;
 		}
-		#demo3 .ball1_up{
+		#fallBallDemo .ball1_up{
 			left:50%;
 			top:50%;
 			margin-top:-30px;
 			margin-left: -230px;
 		}
-		#demo3 .ball1_down{
+		#fallBallDemo .ball1_down{
 			left:50%;
 			top:50%;
 			margin-top:0px;
 			margin-left: -230px;
 			opacity: 0.4;
 		}
+		#ballsWithDiffTrack{
+			position: relative;
+			width: 400px;
+			height: 400px;
+			background: #000;
+		}
+		#ballsWithDiffTrack .ball{
+			top: 100px;
+		}
+		#ballsWithDiffTrack .msg{
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			margin-left:-100px;
+			width:200px;
+			background: #aaa;
+		}
+		#ballsWithDiffTrack .ball1{
+			left: 100px;
+		}
+		#ballsWithDiffTrack .ball2{
+			left: 200px;
+		}
+		#ballsWithDiffTrack .ball3{
+			left: 300px;
+		}
 	</style>
 </head>
 <body>
 	<div class="stage">
 		<div id="demos">
-			<div class="demo"></div>
 			<div class="demo">
-				<div id="demo2">
+				<div id="ballsWithDiffTrack">
+					<div class="msg">msg</div>
+					<div class="ball ball1"></div>
+					<div class="ball ball2"></div>
+					<div class="ball ball3"></div>
+				</div>
+			</div>
+			<div class="demo">
+				<div id="fallBallDemoCtrl">
 					<div class="container">
 						<div class="ctrl-item stop">Stop</div>
 						<div class="ctrl-item restart">Restart</div>
@@ -101,7 +138,7 @@
 					</div>
 					<div class="ctrl">Ctrl</div>
 				</div>
-				<div id="demo3"></div>
+				<div id="fallBallDemo"></div>
 			</div>
 			<div class="demo"></div>
 			<div class="demo"></div>
@@ -114,7 +151,7 @@
 	</div>
 
 <script type="text/javascript" src="jquery-min.js"></script>
-<script data-main='main.js' src='require.js'></script>
+<script data-main='3Ddemo.js' src='require.js'></script>
 <script type="text/javascript">
 var getRandomColor = function(){
 	var cols = [ 0, 0 ,0], i = 0, rand;

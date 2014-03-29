@@ -1,23 +1,21 @@
 define([
 	'../graphic/factory'
 	'./mix'
+	'./controller'
 	'../array/slice'
 	'../array/str2arr'
 	'../filter/filter'
 	'../filter/add'
 	'../function/copyWithContext'
 	'../promise/type'
-	'../event'
-], (F, Mix, slice, str2arr, filter, add, copy, type, Event)->
+], (F, Mix, Controller, slice, str2arr, filter, add, copy, type)->
 
-	Events = {}
-
-	class Track 
+	class Track extends Controller
 		constructor: (gpc, opts)->
+			super
 			@opts = opts = opts or {}
 			@gpc = gpc
 			@timeCosted = opts.delay and opts.delay * 1000 or 0
-			@status = 'initialize'
 			# format options
 			@t = opts.t or gpc.t or Infinity
 			@baseline = bl = opts.baseline or gpc.getS(@t)
@@ -26,7 +24,7 @@ define([
 			# prepare for filter
 			unless fil = opts.filter then fil = [[], []]
 			fil[0] = str2arr(fil[0])
-			fil[0] = fil[0].concat(['translate','decay','beforeEnd'])
+			fil[0] = fil[0].concat(['translate','multi','beforeEnd','addtion'])
 			fil[1].push('translate')
 			fil[1].push('multi')
 			fil[1].push(->
@@ -34,71 +32,47 @@ define([
 					@[i] /= bl
 				@
 			)
+			fil[1].push('translate')
 			@filter = filter.apply(null, fil)
 			@filter.beforeEnd(1)
-      # for custom events
-      opts.events and Events = _.extend(Events, opts.events)
 			opts.autoStart and @start()
+
 		# 控制动画执行的正逆
-		reverse: false
-		# 控制动画计算值的正负
-		minus: false
+		_reverse: false
+		# 指示动画计算值的正负
+		_minus: false
 		# 返回控制器供外部控制动画运行时
 		promise: ->
-			res = {}
-			copy(res, @, 'stop restart start repeat on toEnd destory percent')
+			res = super
+			copy(res, @, 'start minus')
 			copy(res, @filter)
 			res
 		start: ->
-			@status = 'moving'
+			@switch('moving')
+			@trigger('start')
 			@timer = m = setInterval(=> 
-				@step()
+				val = @_step()
 				if @timeCosted >= @t * 1000
-					@onEnd(m)
+					@onEnd(m, val)
 			, 20)
 			@
-		destory: ->
-			clearInterval(@timer)
-			delete @
-		step: (always)->
+		_step: (always)->
 			if(@status is 'stop' and not always) then return clearInterval(@timer)
-			@timeCosted += 20
-			if @reverse
-				now = @t - @timeCosted/1000
-			else
-				now = @timeCosted/1000
+			now = @current()
 			val = @gpc.getS(now)
 			val = @filter.filter([val])[0]
 			@trigger('progress', val)
-      # trigger custom events
-      evs = Events
-      for name, func of evs
-        if func(@timeCosted/1000, val) then this.trigger(name)
-		stop: ->
-			if @status is 'moving'
-				@status = 'stop'	
-		restart: ->
-			if @status is 'stop' or @status is 'initialize'
-				@status = 'moving'
+			@triggerCE(@timeCosted/1000, val)
+			return val
+		minus: ->
+			@filter.multi(-1)
+			@_minus = not @_minus
+		# 接收-1与1分别代表反向与正向
+		step: (direction)->
+			if @stopOrInit() and @endType is 'step'
+				if(!!~direction is @_minus) then @minus()
 				@start()
-		repeat: ->
-			if @status is 'end'
-				@status = 'moving'
-				@timeCosted = 0
-				@start()
-    percent: (p)->
-      @timeCosted = p * @t * 1000 - 20
-      @step(true)
-		toEnd: ->
-			if @endType is 'stop'
-				@timeCosted = @t * 1000 - 20
-				@step()
-				@end()
-		end: ->
-			clearInterval(@timer)
-			@status = 'end'
-			@trigger('done')
-		onEnd: (timer)->
+		onEnd: (timer, endVal)->
 			endType = @endType
 			gpc = @gpc
 			switch endType
@@ -110,28 +84,42 @@ define([
 					# 总路程
 					st = gpc.getS(@t)
 					# 将图形对象变为b为末速度的直线
-					@gpc = F.get('line', 0, vt)
+					times = gpc.times
+					@gpc = undefined
+					@gpc = F.get('line', 0, vt, times)
 					# 将总路程加入过滤器中
-					@filter.translate([st])
+					@filter.translate(st)
 					@t = Infinity
 					# 清除已计算的时间
 					@timeCosted = 0
+					@stop()
+					@start()
 					@trigger('stay')
 				when 'repeat'
 					@timeCosted = 0
 					@trigger('repeat')
 				when 'reverse'
-					@reverse = not @reverse
+					@_reverse = not @_reverse
 					@timeCosted = 0
 					@trigger('reverse')
 				when 'reverse-decay'
-					@reverse = not @reverse
-					unless @reverse
-						@filter.decay(0.8)
+					@_reverse = not @_reverse
+					unless @_reverse
+						@filter.multi(0.8)
 					@timeCosted = 0
 					@trigger('reverse-decay')
-				when 'step-by-step'
-
+				when 'step'
+					@timeCosted = 0
+					unless @_stepVal then @_stepVal = Math.abs(endVal)
+					addVal = if @_minus then -@_stepVal else @_stepVal
+					@filter.addtion(addVal)
+					@stop()
+					@trigger('step')
+				when 'back'
+					@timeCosted = 0
+					@stop()
+					@trigger('progress', 0)
+					@trigger('back')
 				else
 					if gpc[endType]
 						gpc[endType]()
@@ -140,7 +128,6 @@ define([
 							return @end()
 					@timeCosted = 0
 					@trigger(endType)
-	$.extend(Track.prototype, Event)				
 
 	track = 
 		get: (track, opts)->
