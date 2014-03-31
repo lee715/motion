@@ -135,7 +135,9 @@ define([
 			ctrl && ctrl.restart();
 		});
 	});
-	setInterval(function(){
+	var counter = 10;
+	var storyInDemo2 = story();
+	while(counter--){
 		var oldOnes = $('#fallBallDemo .ball1');
 		$('#fallBallDemo').append('<div class="ball ball1 ball1_up"></div><div class="ball ball1 ball1_down"></div>');
 		var $balls = $('#fallBallDemo .ball1').not(oldOnes);
@@ -148,23 +150,18 @@ define([
 				{'margin-top': 200, opacity: 0}
 			],
 			'fallball 1 100 0.8',
-			{autoStart: true, delay: 1}
+			{delay: 1}
 		);
-		var b = Math.random()*10 + 5;
+		var b = parseInt(Math.random()*9 + 6);
 		var ctrl2 = $balls.motion(
 			{'margin-left': 230}
 			,
 			'line 0 '+ b + ' 10' ,
-			{autoStart: true, t: Infinity, baseline: 300, endType: 'stop'}
+			{t: Infinity, baseline: 300, endType: 'stop'}
 		);
-		ctrl2.on('progress', function(p){
-			if(p>1 || p == NaN){
-				$balls.remove();
-				ctrl1.destory();
-				ctrl2.destory();
-			}
-		})
-		fallBallDemo_ctrls.push(ctrl1);
-		fallBallDemo_ctrls.push(ctrl2);
-	}, 1000)
+		storyInDemo2
+			.add(ctrl1, counter, counter+5)
+			.add(ctrl2, counter, counter+5)
+	};
+	storyInDemo2.start();
 });

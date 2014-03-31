@@ -18,6 +18,7 @@ define([
 			@timeCosted = opts.delay and opts.delay * 1000 or 0
 			# format options
 			@t = opts.t or gpc.t or Infinity
+			@total = opts.total or Infinity
 			@baseline = bl = opts.baseline or gpc.getS(@t)
 			# what to do when the animation is ended, default is stop
 			@endType = opts.endType or gpc.endType or 'stop'
