@@ -6,6 +6,7 @@
     Controller = (function() {
       function Controller(opts) {
         opts = opts || {};
+        this.interval = opts.interval || 20;
         this.status = 'initialize';
         if (opts.events) {
           Events = $.extend(Events, opts.events);
@@ -13,12 +14,27 @@
       }
 
       Controller.prototype.current = function() {
-        var now;
-        this.timeCosted += 20;
-        if (this._reverse) {
-          now = this.t - this.timeCosted / 1000;
+        var now, t, tCircle, tCosted, times, total;
+        tCircle = this.timeCircle += this.interval;
+        tCosted = this.timeCosted += this.interval;
+        total = this.total;
+        t = this.t;
+        if (tCosted > this.total * 1000) {
+          console.log(tCosted, this.total * 1000);
+          return this.end();
+        }
+        if (this._reverse && t !== Infinity) {
+          if (total === Infinity) {
+            total = t;
+          }
+          now = total - tCircle / 1000;
         } else {
-          now = this.timeCosted / 1000;
+          now = tCircle / 1000;
+        }
+        if (now > t) {
+          times = parseInt(now / t);
+          now = util.beAccuracy(now % t, 2);
+          this.fix && this.fix(times);
         }
         return now;
       };
@@ -42,7 +58,7 @@
 
       Controller.prototype.promise = function(res) {
         res = {};
-        copy(res, this, 'stop on restart repeat toEnd destory percent reverse step toSecond');
+        copy(res, this, 'stop on end back restart repeat toEnd destory percent reverse step toSecond');
         return res;
       };
 
@@ -85,19 +101,41 @@
       Controller.prototype.repeat = function() {
         if (this.status === 'end') {
           this["switch"]('moving');
-          this.timeCosted = 0;
+          this.timeCircle = 0;
           return this.start();
         }
       };
 
+      Controller.prototype.back = function() {
+        this.stop();
+        this.timeCircle = 0;
+        this.timeCosted = 0;
+        this.trigger('progress', 0);
+        return this.trigger('back');
+      };
+
+      Controller.prototype.reversible = function() {
+        if (this.t !== Infinity) {
+          if (this.total === Infinity) {
+            this.total = this.t;
+          }
+          return true;
+        } else {
+          return false;
+        }
+      };
+
       Controller.prototype.percent = function(p) {
-        this.timeCosted = parseInt(p * this.t * 1000) - 20;
-        return this._step(true);
+        if (this.reversible()) {
+          this.timeCircle = parseInt(p * this.total * 1000) - this.interval;
+          return this._step(true);
+        }
       };
 
       Controller.prototype.toSecond = function(t) {
-        if (t <= this.t) {
-          this.timeCosted = t * 1000 - 20;
+        if (t <= this.total && this.reversible()) {
+          this.timeCircle = t * 1000 - this.interval;
+          this.timeCosted = t * 1000 - this.interval;
           return this._step(true);
         } else {
           return this.toEnd();
@@ -105,11 +143,11 @@
       };
 
       Controller.prototype.toEnd = function() {
-        if (this.endType === 'stop') {
-          this.timeCosted = this.t * 1000 - 20;
+        if (this.reversible()) {
+          this.timeCircle = this.total * 1000 - this.interval;
           this._step();
-          return this.end();
         }
+        return this.end();
       };
 
       Controller.prototype.end = function() {

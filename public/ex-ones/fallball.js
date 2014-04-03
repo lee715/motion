@@ -2,11 +2,11 @@
 (function() {
   define(['../graphic/factory', '../track/mix'], function(F, M) {
     return F["class"]('fallball', function(t, times, decay) {
-      this.t = t;
+      this.t = this._t = t;
       this.times = times;
       this.decay = decay || 0.9;
       this.a = -10;
-      this.b = 10 * t * times;
+      this.b = this._b = 10 * t * times;
       this.reverse = false;
       this.isEnded = false;
       return this;
@@ -30,6 +30,23 @@
         }
         x *= this.times;
         return x;
+      },
+      fix: function(times) {
+        var dc, stage;
+        if (!times) {
+          return;
+        }
+        stage = times % 2;
+        times = Math.ceil(times / 2);
+        if (!stage) {
+          dc = util.power(this.decay, times);
+          this.b = this._b * dc;
+          this.t = this._t * dc;
+          if (this.t < 0.01) {
+            this.isEnded = true;
+          }
+        }
+        return this.reverse = !!stage;
       }
     }, 'line');
   });

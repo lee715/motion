@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['./controller', '../function/copyWithContext'], function(Controller, copy) {
+  define(['./controller', '../function/copyWithContext', '../util/util'], function(Controller, copy, util) {
     var Story;
     return Story = (function(_super) {
       __extends(Story, _super);
@@ -13,6 +13,7 @@
         opts = opts || {};
         this._ins = opts.ins || [];
         this.initTotalT();
+        this.timeCircle = 0;
         this.timeCosted = 0;
         if (opts.autoStart) {
           this.start();
@@ -58,10 +59,10 @@
         this["switch"]('moving');
         this.timer = m = setInterval(function() {
           _this._step();
-          if (_this.timeCosted / 1000 >= _this.t) {
+          if (_this.timeCircle / 1000 >= _this.t) {
             return clearInterval(_this.timer);
           }
-        }, 20);
+        }, this.interval);
         return this;
       };
 
@@ -80,7 +81,7 @@
             } else if (obj.endT === now) {
               this.trigger('end', obj.ins);
             }
-            obj.ins.toSecond(now - obj.startT);
+            obj.ins.toSecond(util.beAccuracy(now - obj.startT, 2));
           }
         }
         return this.triggerCE(now);

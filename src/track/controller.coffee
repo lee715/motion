@@ -8,15 +8,27 @@ define([
 	class Controller
 		constructor: (opts)->
 			opts = opts || {}
+			@interval = opts.interval || 20;
 			@status = 'initialize'
 			# for custom events
 			if opts.events then Events = $.extend(Events, opts.events)
 		current: ->
-			@timeCosted += 20
-			if @_reverse
-				now = @t - @timeCosted/1000
+			tCircle = @timeCircle += @interval
+			tCosted = @timeCosted += @interval
+			total = @total
+			t = @t
+			if tCosted > @total * 1000
+				console.log(tCosted, @total * 1000)
+				return @end()
+			if @_reverse and t isnt Infinity
+				if total is Infinity then total = t
+				now = total - tCircle/1000
 			else
-				now = @timeCosted/1000
+				now = tCircle/1000
+			if now > t
+				times = parseInt(now/t)
+				now = util.beAccuracy(now % t, 2)
+				@fix and @fix(times)
 			return now
 		# trigger custom events
 		triggerCE: ->
@@ -28,7 +40,7 @@ define([
 			  	this.trigger.apply(this, args)
 		promise: (res)->
 			res = {}
-			copy(res, @, 'stop on restart repeat toEnd destory percent reverse step toSecond')
+			copy(res, @, 'stop on end back restart repeat toEnd destory percent reverse step toSecond')
 			res
 		switch: (status)->
 			_status = @status
@@ -53,22 +65,36 @@ define([
 		repeat: ->
 			if @status is 'end'
 				@switch('moving')
-				@timeCosted = 0
+				@timeCircle = 0
 				@start()
+		back: ->
+			@stop()
+			@timeCircle = 0
+			@timeCosted = 0
+			@trigger('progress', 0)
+			@trigger('back')
+		reversible: ->
+			if @t isnt Infinity
+				if @total is Infinity then @total = @t
+				return true
+			else
+				return false
 		percent: (p)->
-			@timeCosted = parseInt(p * @t * 1000) - 20
-			@_step(true)
+			if @reversible()
+				@timeCircle = parseInt(p * @total * 1000) - @interval
+				@_step(true)
 		toSecond: (t)->
-			if t<=@t
-				@timeCosted = t * 1000 - 20
+			if t<=@total and @reversible()
+				@timeCircle = t * 1000 - @interval
+				@timeCosted = t * 1000 - @interval
 				@_step(true)
 			else
 				@toEnd() 
 		toEnd: ->
-			if @endType is 'stop'
-				@timeCosted = @t * 1000 - 20
+			if @reversible()
+				@timeCircle = @total * 1000 - @interval
 				@_step()
-				@end()
+			@end()
 		end: ->
 			clearInterval(@timer)
 			@switch('end')

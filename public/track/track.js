@@ -13,8 +13,10 @@
         Track.__super__.constructor.apply(this, arguments);
         this.opts = opts = opts || {};
         this.gpc = gpc;
-        this.timeCosted = opts.delay && opts.delay * 1000 || 0;
+        this.timeCircle = opts.delay && opts.delay * 1000 || 0;
+        this.timeCosted = 0;
         this.t = opts.t || gpc.t || Infinity;
+        this.total = opts.total || Infinity;
         this.baseline = bl = opts.baseline || gpc.getS(this.t);
         this.endType = opts.endType || gpc.endType || 'stop';
         if (!(fil = opts.filter)) {
@@ -58,10 +60,10 @@
         this.timer = m = setInterval(function() {
           var val;
           val = _this._step();
-          if (_this.timeCosted >= _this.t * 1000) {
+          if (_this.timeCircle >= _this.t * 1000) {
             return _this.onEnd(m, val);
           }
-        }, 20);
+        }, this.interval);
         return this;
       };
 
@@ -70,11 +72,12 @@
         if (this.status === 'stop' && !always) {
           return clearInterval(this.timer);
         }
+        console.log(this.timeCircle, this.timeCosted);
         now = this.current();
         val = this.gpc.getS(now);
         val = this.filter.filter([val])[0];
         this.trigger('progress', val);
-        this.triggerCE(this.timeCosted / 1000, val);
+        this.triggerCE(this.timeCircle / 1000, val);
         return val;
       };
 
@@ -107,26 +110,26 @@
             this.gpc = F.get('line', 0, vt, times);
             this.filter.translate(st);
             this.t = Infinity;
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             this.stop();
             this.start();
             return this.trigger('stay');
           case 'repeat':
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             return this.trigger('repeat');
           case 'reverse':
             this._reverse = !this._reverse;
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             return this.trigger('reverse');
           case 'reverse-decay':
             this._reverse = !this._reverse;
             if (!this._reverse) {
               this.filter.multi(0.8);
             }
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             return this.trigger('reverse-decay');
           case 'step':
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             if (!this._stepVal) {
               this._stepVal = Math.abs(endVal);
             }
@@ -135,7 +138,7 @@
             this.stop();
             return this.trigger('step');
           case 'back':
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             this.stop();
             this.trigger('progress', 0);
             return this.trigger('back');
@@ -147,7 +150,7 @@
                 return this.end();
               }
             }
-            this.timeCosted = 0;
+            this.timeCircle = 0;
             return this.trigger(endType);
         }
       };

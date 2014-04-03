@@ -15,7 +15,8 @@ define([
 			super
 			@opts = opts = opts or {}
 			@gpc = gpc
-			@timeCosted = opts.delay and opts.delay * 1000 or 0
+			@timeCircle = opts.delay and opts.delay * 1000 or 0
+			@timeCosted = 0
 			# format options
 			@t = opts.t or gpc.t or Infinity
 			@total = opts.total or Infinity
@@ -53,17 +54,18 @@ define([
 			@trigger('start')
 			@timer = m = setInterval(=> 
 				val = @_step()
-				if @timeCosted >= @t * 1000
+				if @timeCircle >= @t * 1000
 					@onEnd(m, val)
-			, 20)
+			, @interval)
 			@
 		_step: (always)->
 			if(@status is 'stop' and not always) then return clearInterval(@timer)
+			console.log(@timeCircle, @timeCosted)
 			now = @current()
 			val = @gpc.getS(now)
 			val = @filter.filter([val])[0]
 			@trigger('progress', val)
-			@triggerCE(@timeCosted/1000, val)
+			@triggerCE(@timeCircle/1000, val)
 			return val
 		minus: ->
 			@filter.multi(-1)
@@ -92,32 +94,32 @@ define([
 					@filter.translate(st)
 					@t = Infinity
 					# 清除已计算的时间
-					@timeCosted = 0
+					@timeCircle = 0
 					@stop()
 					@start()
 					@trigger('stay')
 				when 'repeat'
-					@timeCosted = 0
+					@timeCircle = 0
 					@trigger('repeat')
 				when 'reverse'
 					@_reverse = not @_reverse
-					@timeCosted = 0
+					@timeCircle = 0
 					@trigger('reverse')
 				when 'reverse-decay'
 					@_reverse = not @_reverse
 					unless @_reverse
 						@filter.multi(0.8)
-					@timeCosted = 0
+					@timeCircle = 0
 					@trigger('reverse-decay')
 				when 'step'
-					@timeCosted = 0
+					@timeCircle = 0
 					unless @_stepVal then @_stepVal = Math.abs(endVal)
 					addVal = if @_minus then -@_stepVal else @_stepVal
 					@filter.addtion(addVal)
 					@stop()
 					@trigger('step')
 				when 'back'
-					@timeCosted = 0
+					@timeCircle = 0
 					@stop()
 					@trigger('progress', 0)
 					@trigger('back')
@@ -127,7 +129,7 @@ define([
 						@t = gpc.t
 						if gpc.isEnded
 							return @end()
-					@timeCosted = 0
+					@timeCircle = 0
 					@trigger(endType)
 
 	track = 

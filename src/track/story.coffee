@@ -1,7 +1,8 @@
 define([
 	'./controller'
 	'../function/copyWithContext'
-], (Controller, copy)->
+	'../util/util'
+], (Controller, copy, util)->
 
 	class Story extends Controller
 		constructor: (opts)->
@@ -9,6 +10,7 @@ define([
 			opts = opts || {}
 			@_ins = opts.ins or []
 			@initTotalT()
+			@timeCircle = 0
 			@timeCosted = 0
 			if opts.autoStart then @start()
 
@@ -38,9 +40,9 @@ define([
 			@switch('moving')
 			@timer = m = setInterval(=>
 				@_step()
-				if @timeCosted/1000 >= @t
+				if @timeCircle/1000 >= @t
 					clearInterval(@timer)
-			, 20)
+			, @interval)
 			@
 
 		_step: (alway)->
@@ -53,7 +55,7 @@ define([
 						@trigger('start', obj.ins)
 					else if(obj.endT == now)
 						@trigger('end', obj.ins)
-					obj.ins.toSecond(now - obj.startT)
+					obj.ins.toSecond(util.beAccuracy(now - obj.startT, 2))
 			# trigger custom events
 			@triggerCE(now)
 
